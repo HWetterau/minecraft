@@ -57,7 +57,7 @@ void Camera::down_pan() {
 void Camera::left_drag(double delta_x, double delta_y) {
 	glm::vec3 drag = glm::vec3(-delta_x, delta_y ,0.0f);
 	drag = glm::normalize(drag);
-	glm::vec3 axis = glm::cross(drag,look_);
+	glm::vec3 axis =glm::cross(drag,look_);
 	glm::mat4 view = glm::mat4(glm::vec4(tangent_, 0.0), glm::vec4(up_, 0.0), glm::vec4(look_, 0.0), glm::vec4(eye_, 1.0));
 	glm::mat4 rotation = glm::rotate(view, rotation_speed, axis);
 

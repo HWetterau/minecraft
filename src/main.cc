@@ -14,6 +14,7 @@
 #include <debuggl.h>
 
 #include "camera.h"
+#include "terrain.h"
 
 #include <chrono>
 #include <algorithm>
@@ -60,12 +61,12 @@ const char* grass_frag_shader =
 
 void CreateCube (std::vector<glm::vec4>& obj_vertices, std::vector<glm::uvec3>& obj_faces) {
 	
-	double minX = -0.5;
-	double minY = -0.5;
-	double minZ = -0.5;
-	double maxX = 0.5;
-	double maxY = 0.5;
-	double maxZ = 0.5;
+	double minX = 0;
+	double minY = minX;
+	double minZ = minX;
+	double maxX = 1;
+	double maxY = maxX;
+	double maxZ = maxX;
 
 		//build the cube
 	obj_vertices.push_back(glm::vec4(minX,minY,minZ,1.0f));
@@ -106,10 +107,13 @@ Camera g_camera;
 bool g_save_geo = false;
 bool wireframe = true;
 bool polygon_mode = true;
+bool change_chunk = false;
 
 
-
-
+bool border(glm::vec4 oldPos, glm::vec4 newPos) {
+	return !( ((int)oldPos.x)/chunkSize == ((int)newPos.x)/chunkSize &&
+			  ((int)oldPos.z)/chunkSize == ((int)newPos.z)/chunkSize);
+}
 
 void
 KeyCallback(GLFWwindow* window,
@@ -127,17 +131,25 @@ KeyCallback(GLFWwindow* window,
 		g_save_geo = true;
 
 	} else if (key == GLFW_KEY_W && action != GLFW_RELEASE) {
-		// FIXME: WASD
+		// FIXME: 
+		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.w_move_forward();
+		change_chunk = border(oldPos,g_camera.get_eye());
 
 	} else if (key == GLFW_KEY_S && mods != GLFW_MOD_CONTROL && action != GLFW_RELEASE) {
+		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.s_move_backward();
+		change_chunk = border(oldPos,g_camera.get_eye());
 
 	} else if (key == GLFW_KEY_A && action != GLFW_RELEASE) {
+		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.a_strafe_left();
+		change_chunk = border(oldPos,g_camera.get_eye());
 
 	} else if (key == GLFW_KEY_D && action != GLFW_RELEASE) {
+		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.d_strafe_right();
+		change_chunk = border(oldPos,g_camera.get_eye());
 
 	} else if (key == GLFW_KEY_LEFT && action != GLFW_RELEASE) {
 		// FIXME: Left Right Up and Down
@@ -240,12 +252,17 @@ int main(int argc, char* argv[])
 	std::cout << "OpenGL version supported:" << version << "\n";
 
 
+
 	//cubes
 	std::vector<glm::vec4> obj_vertices;
 	std::vector<glm::uvec3> obj_faces;  
 
 	CreateCube(obj_vertices, obj_faces);
 
+	Terrain terrain;
+	std::vector<glm::vec4> offsets;
+
+	terrain.generate(g_camera.get_eye(),offsets);
 
 	// glm::vec4 min_bounds = glm::vec4(std::numeric_limits<float>::max());
 	// glm::vec4 max_bounds = glm::vec4(-std::numeric_limits<float>::max());
@@ -316,46 +333,34 @@ int main(int argc, char* argv[])
 	CHECK_GL_PROGRAM_ERROR(stone_program_id);
 
 	// Get the uniform locations.
-	// GLint projection_matrix_location = 0;
-	// CHECK_GL_ERROR(projection_matrix_location =
-	// 		glGetUniformLocation(stone_program_id, "projection"));
-	// GLint view_matrix_location = 0;
-	// CHECK_GL_ERROR(view_matrix_location =
-	// 		glGetUniformLocation(stone_program_id, "view"));
+	GLint projection_matrix_location = 0;
+	CHECK_GL_ERROR(projection_matrix_location =
+			glGetUniformLocation(stone_program_id, "projection"));
+	GLint view_matrix_location = 0;
+	CHECK_GL_ERROR(view_matrix_location =
+			glGetUniformLocation(stone_program_id, "view"));
 	GLint light_position_location = 0;
 	GLint camera_position_location = 0;
 
 	CHECK_GL_ERROR(light_position_location =
 			glGetUniformLocation(stone_program_id, "light_position"));
 
-	CHECK_GL_ERROR(camera_position_location =
-			glGetUniformLocation(stone_program_id, "camera_position"));
+	// CHECK_GL_ERROR(camera_position_location =
+	// 		glGetUniformLocation(stone_program_id, "camera_position"));
 
 
-//int num_trans = 40;
-// for (int i = 0; i < num_trans; ++i){
-// 	string s s["+to_string(i)+"]";
-// 	const char* c = s.c_str();
-// 	CHECK_GL_ERROR(boat_translation_location[i] =
-// 		glGetUniformLocation(boat_program_id, c));
-// }
+int num_trans = 900;
+GLuint cube_translation_location[num_trans];
+for (int i = 0; i < num_trans; ++i){
+	string s =  "offsets["+to_string(i)+"]";
+	const char* c = s.c_str();
+	CHECK_GL_ERROR(cube_translation_location[i] =
+		glGetUniformLocation(stone_program_id, c));
+}
 
-// glm::vec4 translations[num_trans];
-// int index = 0;
-// for(int x = -15; x < 15; x += 3)
-// {
-//     for(int z = -20; z < 0; z += 5)
-//     {
-//         glm::vec4 translation;
-//         translation.x = (float)x;
-//         translation.z = (float)z;
-// 				translation.y = -1.5;
-// 				translation.w = 0;
-//         translations[index++] = translation;
-//     }
-// }
-
-
+glm::vec4 translations[num_trans];
+std::copy(offsets.begin(), offsets.end(), translations);
+glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
  //	auto start = chrono::steady_clock::now();
 	glm::vec4 light_position = glm::vec4(-10.0f, 10.0f, 0.0f, 1.0f);
 	float aspect = 0.0f;
@@ -370,46 +375,58 @@ int main(int argc, char* argv[])
 		glDepthFunc(GL_LESS);
 
 		// Switch to the Geometry VAO.
-		//CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kGeometryVao]));
+		CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kGeometryVao]));
 
-		// // FIXME: Upload your vertex data here.
-		// // Setup vertex data in a VBO.
-		// CHECK_GL_ERROR(glBindBuffer(GL_ARRAY_BUFFER, g_buffer_objects[kGeometryVao][kVertexBuffer]));
+		// FIXME: Upload your vertex data here.
+		// Setup vertex data in a VBO.
+		CHECK_GL_ERROR(glBindBuffer(GL_ARRAY_BUFFER, g_buffer_objects[kGeometryVao][kVertexBuffer]));
 
-		// CHECK_GL_ERROR(glBufferData(GL_ARRAY_BUFFER,
-		// 	sizeof(float) * obj_vertices.size() * 4, obj_vertices.data(),
-		// 	GL_STATIC_DRAW));
-		// CHECK_GL_ERROR(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0));
-		// CHECK_GL_ERROR(glEnableVertexAttribArray(0));
+		CHECK_GL_ERROR(glBufferData(GL_ARRAY_BUFFER,
+			sizeof(float) * obj_vertices.size() * 4, obj_vertices.data(),
+			GL_STATIC_DRAW));
+		CHECK_GL_ERROR(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0));
+		CHECK_GL_ERROR(glEnableVertexAttribArray(0));
 
-		// // Setup element array buffer.
-		// CHECK_GL_ERROR(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_buffer_objects[kGeometryVao][kIndexBuffer]));
-		// CHECK_GL_ERROR(glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-		// 			sizeof(uint32_t) * obj_faces.size() * 3,
-		// 			obj_faces.data(), GL_STATIC_DRAW));
+		// Setup element array buffer.
+		CHECK_GL_ERROR(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_buffer_objects[kGeometryVao][kIndexBuffer]));
+		CHECK_GL_ERROR(glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+					sizeof(uint32_t) * obj_faces.size() * 3,
+					obj_faces.data(), GL_STATIC_DRAW));
+
+		if (change_chunk){
+			cout<<"change chunk"<<endl;
+			terrain.generate(g_camera.get_eye(),offsets);
+			std::copy(offsets.begin(), offsets.end(), &translations[0]);
+			change_chunk = false;
+		}
+
+		// Compute the projection matrix.
+		aspect = static_cast<float>(window_width) / window_height;
+		glm::mat4 projection_matrix =
+			glm::perspective(glm::radians(45.0f), aspect, 0.0001f, 1000.0f);
+
+		// Compute the view matrix
+		// FIXME: change eye and center through mouse/keyboard events.
+		glm::mat4 view_matrix = g_camera.get_view_matrix();
+
+		// Use our program.
+		CHECK_GL_ERROR(glUseProgram(stone_program_id));
+		
+		// Pass uniforms in.
+		CHECK_GL_ERROR(glUniformMatrix4fv(projection_matrix_location, 1, GL_FALSE,
+					&projection_matrix[0][0]));
+		CHECK_GL_ERROR(glUniformMatrix4fv(view_matrix_location, 1, GL_FALSE,
+					&view_matrix[0][0]));
+		CHECK_GL_ERROR(glUniform4fv(light_position_location, 1, &light_position[0]));
+
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &translations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, offsets.size()));
 
 
-		// // Compute the projection matrix.
-		// aspect = static_cast<float>(window_width) / window_height;
-		// glm::mat4 projection_matrix =
-		// 	glm::perspective(glm::radians(45.0f), aspect, 0.0001f, 1000.0f);
-
-		// // Compute the view matrix
-		// // FIXME: change eye and center through mouse/keyboard events.
-		// glm::mat4 view_matrix = g_camera.get_view_matrix();
-
-		// // Use our program.
-		// CHECK_GL_ERROR(glUseProgram(program_id));
-
-		// // Pass uniforms in.
-		// CHECK_GL_ERROR(glUniformMatrix4fv(projection_matrix_location, 1, GL_FALSE,
-		// 			&projection_matrix[0][0]));
-		// CHECK_GL_ERROR(glUniformMatrix4fv(view_matrix_location, 1, GL_FALSE,
-		// 			&view_matrix[0][0]));
-		// CHECK_GL_ERROR(glUniform4fv(light_position_location, 1, &light_position[0]));
-
-		// // Draw our triangles.
-		// CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0));
+		// Draw our triangles.
+		//CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0));
 
 	
 

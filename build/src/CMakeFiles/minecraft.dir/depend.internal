@@ -12,4 +12,5 @@ src/CMakeFiles/minecraft.dir/main.cc.o
  /u/hwett/Desktop/graphics/minecraft/src/shaders/dirt.frag
  /u/hwett/Desktop/graphics/minecraft/src/shaders/grass.frag
  /u/hwett/Desktop/graphics/minecraft/src/shaders/stone.frag
+ /u/hwett/Desktop/graphics/minecraft/src/terrain.h
  /usr/local/include/GLFW/glfw3.h
