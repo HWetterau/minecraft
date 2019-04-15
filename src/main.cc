@@ -44,6 +44,11 @@ const char* vertex_shader =
 #include "shaders/default.vert"
 ;
 
+const char* geometry_shader =
+#include "shaders/default.geom"
+;
+
+
 const char* stone_frag_shader =
 #include "shaders/stone.frag"
 ;
@@ -260,9 +265,28 @@ int main(int argc, char* argv[])
 	CreateCube(obj_vertices, obj_faces);
 
 	Terrain terrain;
-	std::vector<glm::vec4> offsets;
+	// std::vector<glm::vec4> up_left_offsets;
+	// std::vector<glm::vec4> up_center_offsets;
+	// std::vector<glm::vec4> up_right_offsets;
+	// std::vector<glm::vec4> left_offsets;
+	// std::vector<glm::vec4> center_offsets;
+	// std::vector<glm::vec4> right_offsets;
+	// std::vector<glm::vec4> down_left_offsets;
+	// std::vector<glm::vec4> down_center_offsets;
+	// std::vector<glm::vec4> down_right_offsets;
+	// glm::vec4 eye = g_camera.get_eye();
+	// eye.x -= chunkSize;
+	// eye.z -= chunkSize;
+	// terrain.generate(eye, up_left_offsets);
+	// eye.x += chunkSize;
+	// terrain.generate(eye, up_center_offsets);
+	// eye.x += chunkSize;
+	// terrain.generate(eye, up_right_offsets);
+	// terrain.generate(g_camera.get_eye(),center_offsets);
 
-	terrain.generate(g_camera.get_eye(),offsets);
+	glm::vec4 chunks[9][chunkSize*chunkSize];
+
+
 
 	// glm::vec4 min_bounds = glm::vec4(std::numeric_limits<float>::max());
 	// glm::vec4 max_bounds = glm::vec4(-std::numeric_limits<float>::max());
@@ -311,7 +335,12 @@ int main(int argc, char* argv[])
 	glCompileShader(vertex_shader_id);
 	CHECK_GL_SHADER_ERROR(vertex_shader_id);
 
-	
+	GLuint geometry_shader_id = 0;
+	CHECK_GL_ERROR(geometry_shader_id = glCreateShader(GL_GEOMETRY_SHADER));
+	CHECK_GL_ERROR(glShaderSource(geometry_shader_id, 1, &geometry_shader, nullptr));
+	glCompileShader(geometry_shader_id);
+	CHECK_GL_SHADER_ERROR(geometry_shader_id);
+
 	// Setup fragment shader.
 	GLuint stone_fragment_shader_id = 0;
 	CHECK_GL_ERROR(stone_fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER));
@@ -323,7 +352,8 @@ int main(int argc, char* argv[])
 	GLuint stone_program_id = 0;
 	CHECK_GL_ERROR(stone_program_id = glCreateProgram());
 	CHECK_GL_ERROR(glAttachShader(stone_program_id, vertex_shader_id));
-	CHECK_GL_ERROR(glAttachShader(stone_program_id, stone_fragment_shader_id));
+	CHECK_GL_ERROR(glAttachShader(stone_program_id, geometry_shader_id));
+    CHECK_GL_ERROR(glAttachShader(stone_program_id, stone_fragment_shader_id));
 
 	// Bind attributes.
 	CHECK_GL_ERROR(glBindAttribLocation(stone_program_id, 0, "vertex_position"));
@@ -359,8 +389,8 @@ for (int i = 0; i < num_trans; ++i){
 }
 
 glm::vec4 translations[num_trans];
-std::copy(offsets.begin(), offsets.end(), translations);
-glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+std::copy(center_offsets.begin(), center_offsets.end(), translations);
+//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
  //	auto start = chrono::steady_clock::now();
 	glm::vec4 light_position = glm::vec4(-10.0f, 10.0f, 0.0f, 1.0f);
 	float aspect = 0.0f;

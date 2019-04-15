@@ -7,6 +7,7 @@ src/CMakeFiles/minecraft.dir/camera.cc.o: ../src/camera.h
 src/CMakeFiles/minecraft.dir/main.cc.o: ../lib/utgraphicsutil/debuggl.h
 src/CMakeFiles/minecraft.dir/main.cc.o: ../src/camera.h
 src/CMakeFiles/minecraft.dir/main.cc.o: ../src/main.cc
+src/CMakeFiles/minecraft.dir/main.cc.o: ../src/shaders/default.geom
 src/CMakeFiles/minecraft.dir/main.cc.o: ../src/shaders/default.vert
 src/CMakeFiles/minecraft.dir/main.cc.o: ../src/shaders/dirt.frag
 src/CMakeFiles/minecraft.dir/main.cc.o: ../src/shaders/grass.frag

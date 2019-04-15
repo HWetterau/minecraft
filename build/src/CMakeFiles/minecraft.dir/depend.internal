@@ -8,6 +8,7 @@ src/CMakeFiles/minecraft.dir/main.cc.o
  ../lib/utgraphicsutil/debuggl.h
  /u/hwett/Desktop/graphics/minecraft/src/camera.h
  /u/hwett/Desktop/graphics/minecraft/src/main.cc
+ /u/hwett/Desktop/graphics/minecraft/src/shaders/default.geom
  /u/hwett/Desktop/graphics/minecraft/src/shaders/default.vert
  /u/hwett/Desktop/graphics/minecraft/src/shaders/dirt.frag
  /u/hwett/Desktop/graphics/minecraft/src/shaders/grass.frag

@@ -55,12 +55,16 @@ sstream
 -
 shaders/default.vert
 /u/hwett/Desktop/graphics/minecraft/src/shaders/default.vert
+shaders/default.geom
+/u/hwett/Desktop/graphics/minecraft/src/shaders/default.geom
 shaders/stone.frag
 /u/hwett/Desktop/graphics/minecraft/src/shaders/stone.frag
 shaders/dirt.frag
 /u/hwett/Desktop/graphics/minecraft/src/shaders/dirt.frag
 shaders/grass.frag
 /u/hwett/Desktop/graphics/minecraft/src/shaders/grass.frag
+
+/u/hwett/Desktop/graphics/minecraft/src/shaders/default.geom
 
 /u/hwett/Desktop/graphics/minecraft/src/shaders/default.vert
 
