@@ -13,7 +13,7 @@ int chunkSize = 9;
 class Terrain {
 public:
 void generate(glm::vec4 world_pos, vector<glm::vec4>& offsets) {
-    int seed = ((int)world_pos.x)/chunkSize * 653 + ((int)world_pos.z)/chunkSize; //just chose an arbitrary prime number
+    int seed = floor(world_pos.x/chunkSize) * 653 + floor(world_pos.z/chunkSize); //just chose an arbitrary prime number
     srand(seed);
 
     offsets.clear();
@@ -25,8 +25,8 @@ void generate(glm::vec4 world_pos, vector<glm::vec4>& offsets) {
 	// vec2 direction_2 = vec2(-3,-1);
 	// float w_2 = 0.3;
 	// float speed_2 = 0.002;
-    int startx = ((int)world_pos.x)/chunkSize * chunkSize;
-    int startz = ((int)world_pos.z)/chunkSize * chunkSize;
+    int startx = floor(world_pos.x/chunkSize) * chunkSize;
+    int startz = floor(world_pos.z/chunkSize) * chunkSize;
     int bedrock = -4;
     int min = 0;
     int max = chunkSize;

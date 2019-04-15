@@ -111,8 +111,8 @@ bool change_chunk = false;
 
 
 bool border(glm::vec4 oldPos, glm::vec4 newPos) {
-	return !( ((int)oldPos.x)/chunkSize == ((int)newPos.x)/chunkSize &&
-			  ((int)oldPos.z)/chunkSize == ((int)newPos.z)/chunkSize);
+	return !( floor(oldPos.x/chunkSize) == floor(newPos.x/chunkSize) &&
+			  floor(oldPos.z/chunkSize) == floor(newPos.z/chunkSize));
 }
 
 void
