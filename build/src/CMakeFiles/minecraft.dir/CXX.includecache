@@ -17,6 +17,8 @@ glm/glm.hpp
 -
 glm/gtc/matrix_transform.hpp
 /u/hwett/Desktop/graphics/minecraft/src/glm/gtc/matrix_transform.hpp
+glm/gtx/transform.hpp
+-
 glm/gtc/matrix_access.hpp
 /u/hwett/Desktop/graphics/minecraft/src/glm/gtc/matrix_access.hpp
 

@@ -275,16 +275,10 @@ int main(int argc, char* argv[])
 	// std::vector<glm::vec4> down_center_offsets;
 	// std::vector<glm::vec4> down_right_offsets;
 	// glm::vec4 eye = g_camera.get_eye();
-	// eye.x -= chunkSize;
-	// eye.z -= chunkSize;
-	// terrain.generate(eye, up_left_offsets);
-	// eye.x += chunkSize;
-	// terrain.generate(eye, up_center_offsets);
-	// eye.x += chunkSize;
-	// terrain.generate(eye, up_right_offsets);
-	// terrain.generate(g_camera.get_eye(),center_offsets);
 
-	glm::vec4 chunks[9][chunkSize*chunkSize];
+	terrain.generate(g_camera.get_eye());
+
+	//glm::vec4 chunks[9][chunkSize*chunkSize];
 
 
 
@@ -388,8 +382,24 @@ for (int i = 0; i < num_trans; ++i){
 		glGetUniformLocation(stone_program_id, c));
 }
 
-glm::vec4 translations[num_trans];
-std::copy(center_offsets.begin(), center_offsets.end(), translations);
+glm::vec4 ultranslations[num_trans];
+glm::vec4 uctranslations[num_trans];
+glm::vec4 urtranslations[num_trans];
+glm::vec4 ltranslations[num_trans];
+glm::vec4 ctranslations[num_trans];
+glm::vec4 rtranslations[num_trans];
+glm::vec4 dltranslations[num_trans];
+glm::vec4 dctranslations[num_trans];
+glm::vec4 drtranslations[num_trans];
+std::copy(terrain.up_left_offsets.begin(), terrain.up_left_offsets.end(), ultranslations);
+std::copy(terrain.up_center_offsets.begin(), terrain.up_center_offsets.end(), uctranslations);
+std::copy(terrain.up_right_offsets.begin(), terrain.up_right_offsets.end(), urtranslations);
+std::copy(terrain.left_offsets.begin(), terrain.left_offsets.end(), ltranslations);
+std::copy(terrain.center_offsets.begin(), terrain.center_offsets.end(), ctranslations);
+std::copy(terrain.right_offsets.begin(), terrain.right_offsets.end(), rtranslations);
+std::copy(terrain.down_left_offsets.begin(), terrain.down_left_offsets.end(), dltranslations);
+std::copy(terrain.down_center_offsets.begin(), terrain.down_center_offsets.end(), dctranslations);
+std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), drtranslations);
 //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
  //	auto start = chrono::steady_clock::now();
 	glm::vec4 light_position = glm::vec4(-10.0f, 10.0f, 0.0f, 1.0f);
@@ -425,9 +435,17 @@ std::copy(center_offsets.begin(), center_offsets.end(), translations);
 
 		if (change_chunk){
 			cout<<"change chunk"<<endl;
-			terrain.generate(g_camera.get_eye(),offsets);
-			std::copy(offsets.begin(), offsets.end(), &translations[0]);
-			change_chunk = false;
+			terrain.generate(g_camera.get_eye());
+			std::copy(terrain.up_left_offsets.begin(), terrain.up_left_offsets.end(), ultranslations);
+			std::copy(terrain.up_center_offsets.begin(), terrain.up_center_offsets.end(), uctranslations);
+			std::copy(terrain.up_right_offsets.begin(), terrain.up_right_offsets.end(), urtranslations);
+			std::copy(terrain.left_offsets.begin(), terrain.left_offsets.end(), ltranslations);
+			std::copy(terrain.center_offsets.begin(), terrain.center_offsets.end(), ctranslations);
+			std::copy(terrain.right_offsets.begin(), terrain.right_offsets.end(), rtranslations);
+			std::copy(terrain.down_left_offsets.begin(), terrain.down_left_offsets.end(), dltranslations);
+			std::copy(terrain.down_center_offsets.begin(), terrain.down_center_offsets.end(), dctranslations);
+			std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), drtranslations);
+			 change_chunk = false;
 		}
 
 		// Compute the projection matrix.
@@ -450,9 +468,56 @@ std::copy(center_offsets.begin(), center_offsets.end(), translations);
 		CHECK_GL_ERROR(glUniform4fv(light_position_location, 1, &light_position[0]));
 
 		for (int i = 0; i < num_trans; ++i){
-					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &translations[i][0]));
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &ultranslations[i][0]));
 				}
-		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, offsets.size()));
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.up_left_offsets.size()));
+		 
+
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &uctranslations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.up_center_offsets.size()));
+
+		
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &urtranslations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.up_right_offsets.size()));
+
+	
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &ltranslations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.left_offsets.size()));
+
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &ctranslations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.center_offsets.size()));
+
+		
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &rtranslations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.right_offsets.size()));
+
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &dltranslations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.down_left_offsets.size()));
+		 
+
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &dctranslations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.down_center_offsets.size()));
+
+		
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &drtranslations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.down_right_offsets.size()));
+
 
 
 		// Draw our triangles.

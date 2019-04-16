@@ -55,17 +55,24 @@ void Camera::down_pan() {
 }
 
 void Camera::left_drag(double delta_x, double delta_y) {
-	glm::vec3 drag = glm::vec3(-delta_x, delta_y ,0.0f);
-	drag = glm::normalize(drag);
-	glm::vec3 axis =glm::cross(drag,look_);
-	glm::mat4 view = glm::mat4(glm::vec4(tangent_, 0.0), glm::vec4(up_, 0.0), glm::vec4(look_, 0.0), glm::vec4(eye_, 1.0));
-	glm::mat4 rotation = glm::rotate(view, rotation_speed, axis);
+	// glm::vec3 drag = glm::vec3(-delta_x, delta_y ,0.0f);
+	// drag = glm::normalize(drag);
+	// glm::vec3 axis =glm::cross(drag,look_);
+	// glm::mat4 view = glm::mat4(glm::vec4(tangent_, 0.0), glm::vec4(up_, 0.0), glm::vec4(look_, 0.0), glm::vec4(eye_, 1.0));
+	// glm::mat4 rotation = glm::rotate(view, rotation_speed, axis);
 
 
-	look_ = glm::vec3(rotation[2]);
-	tangent_ = glm::vec3(rotation[0]);
-	up_ = glm::vec3(rotation[1]);
+	// look_ = glm::vec3(rotation[2]);
+	// tangent_ = glm::vec3(rotation[0]);
+	// up_ = glm::vec3(rotation[1]);
 
+	// center_ = eye_ + (camera_distance_ * look_);
+	glm::mat3 orientation_ = glm::mat3(tangent_, up_, look_);
+	glm::vec3 axis = glm::normalize(orientation_ *glm::vec3(delta_y, delta_x, 0.0f));
+	orientation_ = glm::mat3(glm::rotate(rotation_speed, axis) * glm::mat4(orientation_));
+	tangent_ = glm::column(orientation_, 0);
+	up_ = glm::column(orientation_, 1);
+	look_ = glm::column(orientation_, 2);
 	center_ = eye_ + (camera_distance_ * look_);
 
 }
