@@ -85,6 +85,8 @@ stdlib.h
 -
 iostream
 -
+algorithm
+-
 
 /usr/local/include/GLFW/glfw3.h
 stddef.h
