@@ -5,6 +5,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include <glm/gtx/transform.hpp>
 #include "glm/gtc/matrix_access.hpp"
+#include <iostream>
 
 class Camera {
 public:
@@ -18,9 +19,12 @@ public:
 	void down_pan();
 	void left_drag(double delta_x, double delta_y);
 	glm::vec4 get_eye() const;
+	void toggle_gravity() { gravity = !gravity; };
+;
 
 
 private:
+	bool gravity = true;
 	float camera_distance_ = 3.0;
 	glm::vec3 look_ = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 up_ = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -30,6 +34,9 @@ private:
 	// Note: you may need additional member variables
 	glm::vec3 tangent_ = glm::normalize(glm::cross(look_, up_));
 	glm::vec3 center_ = eye_ + (camera_distance_ * look_);
+
+	float pitch = 0.0f;
+	float yaw = 0.0f;
 };
 
 #endif

@@ -1,5 +1,5 @@
 #include "camera.h"
-
+using namespace std;
 namespace {
 	float pan_speed = 0.1f;
 	float roll_speed = 0.1f;
@@ -24,23 +24,39 @@ glm::vec4 Camera::get_eye() const
 }
 
 void Camera::w_move_forward() {
-	eye_ = eye_ + (zoom_speed * look_);
+	glm::vec3 move_dir = look_;
+	move_dir.y = 0.0;
+	move_dir = glm::normalize(move_dir);
+
+	eye_ = eye_ + (zoom_speed * move_dir);
 	center_ = eye_ + (camera_distance_ * look_);
 
 }
 
 void Camera::s_move_backward() {
-	eye_ = eye_ - (zoom_speed * look_);
+	glm::vec3 move_dir = look_;
+	move_dir.y = 0.0;
+	move_dir = glm::normalize(move_dir);
+
+	eye_ = eye_ - (zoom_speed * move_dir);
 	center_ = eye_ + (camera_distance_ * look_);
 }
 
 void Camera::a_strafe_left() {
-	eye_ = eye_ - (pan_speed * tangent_);
+	glm::vec3 move_dir = tangent_;
+	move_dir.y = 0.0;
+	move_dir = glm::normalize(move_dir);
+
+	eye_ = eye_ - (pan_speed * move_dir);
 	center_ = eye_ + (camera_distance_ * look_);
 }
 
 void Camera::d_strafe_right() {
-	eye_ = eye_ + (pan_speed * tangent_);
+	glm::vec3 move_dir = tangent_;
+	move_dir.y = 0.0;
+	move_dir = glm::normalize(move_dir);
+
+	eye_ = eye_ + (pan_speed * move_dir);
 	center_ = eye_ + (camera_distance_ * look_);
 }
 
@@ -55,24 +71,35 @@ void Camera::down_pan() {
 }
 
 void Camera::left_drag(double delta_x, double delta_y) {
-	// glm::vec3 drag = glm::vec3(-delta_x, delta_y ,0.0f);
-	// drag = glm::normalize(drag);
-	// glm::vec3 axis =glm::cross(drag,look_);
-	// glm::mat4 view = glm::mat4(glm::vec4(tangent_, 0.0), glm::vec4(up_, 0.0), glm::vec4(look_, 0.0), glm::vec4(eye_, 1.0));
-	// glm::mat4 rotation = glm::rotate(view, rotation_speed, axis);
+	yaw   += delta_x * 0.5;
+	pitch += delta_y * 0.5;  
+	if(pitch > 89.0f)
+		pitch =  89.0f;
+	if(pitch < -89.0f)
+		pitch = -89.0f;
 
-
-	// look_ = glm::vec3(rotation[2]);
-	// tangent_ = glm::vec3(rotation[0]);
-	// up_ = glm::vec3(rotation[1]);
-
-	// center_ = eye_ + (camera_distance_ * look_);
-	glm::mat3 orientation_ = glm::mat3(tangent_, up_, look_);
-	glm::vec3 axis = glm::normalize(orientation_ *glm::vec3(delta_y, delta_x, 0.0f));
-	orientation_ = glm::mat3(glm::rotate(rotation_speed, axis) * glm::mat4(orientation_));
-	tangent_ = glm::column(orientation_, 0);
-	up_ = glm::column(orientation_, 1);
-	look_ = glm::column(orientation_, 2);
+	glm::vec3 front;
+	front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
+	front.y = sin(glm::radians(pitch));
+	front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
+	look_ = glm::normalize(front);
 	center_ = eye_ + (camera_distance_ * look_);
+
+	// cout << "look " << look_.y << endl;
+	// cout << "delta y " << delta_y << endl;
+	// if ((delta_y < 0 && look_.y <= -.75) || (delta_y > 0 && look_.y >= .75)) {
+	// 	delta_y = 0;
+	// 	cout<<"in if "<<endl;
+	// 	if(delta_x == 0)
+	// 		return;
+	// }
+	
+	// glm::mat3 orientation_ = glm::mat3(tangent_, up_, look_);
+	// glm::vec3 axis = glm::normalize(orientation_ *glm::vec3(delta_y, -delta_x, 0.0f));
+	// orientation_ = glm::mat3(glm::rotate(rotation_speed, axis) * glm::mat4(orientation_));
+	// tangent_ = glm::column(orientation_, 0);
+	// up_ = glm::column(orientation_, 1);
+	// look_ = glm::column(orientation_, 2);
+	// center_ = eye_ + (camera_distance_ * look_);
 
 }

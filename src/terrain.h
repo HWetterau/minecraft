@@ -221,16 +221,16 @@ void grid(glm::vec4 world_pos){
         cout<<"seed "<<seed<<endl;
      //get edge vectors
     srand(seed);
-    glm::vec2 aa = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
+    glm::vec2 aa = glm::normalize(glm::vec2(rand() % 10 + 1 ,rand() % 10 + 1 ));
     seed = (x + chunkSize) * 653 + z;
     srand(seed);
-    glm::vec2 bb = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
+    glm::vec2 bb = glm::normalize(glm::vec2(rand() % 10 + 1 ,rand() % 10 + 1 ));
     seed = (x + chunkSize) * 653 + z + chunkSize;
     srand(seed);
-    glm::vec2 cc = glm::normalize(glm::vec2(rand() % 10 ,rand() % 10 ));
+    glm::vec2 cc = glm::normalize(glm::vec2(rand() % 10 + 1,rand() % 10 + 1 ));
     seed = x  * 653 + z + chunkSize;
     srand(seed);
-    glm::vec2 dd = glm::normalize(glm::vec2(rand() % 10 ,rand() % 10 ));
+    glm::vec2 dd = glm::normalize(glm::vec2(rand() % 10 + 1,rand() % 10 + 1));
    
     
     
@@ -253,11 +253,11 @@ void grid(glm::vec4 world_pos){
         }
         cout << endl;
     }
-    glm::vec2 dc = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
-    glm::vec2 da = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
-    glm::vec2 cb = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
-    glm::vec2 ab = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
-    glm::vec2 mid = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
+    glm::vec2 dc = glm::normalize(glm::vec2(rand() % 10 + 1 ,rand() % 10 + 1 ));
+    glm::vec2 da = glm::normalize(glm::vec2(rand() % 10 + 1 ,rand() % 10 + 1 ));
+    glm::vec2 cb = glm::normalize(glm::vec2(rand() % 10 + 1 ,rand() % 10 + 1 ));
+    glm::vec2 ab = glm::normalize(glm::vec2(rand() % 10 + 1 ,rand() % 10 + 1 ));
+    glm::vec2 mid = glm::normalize(glm::vec2(rand() % 10 + 1 ,rand() % 10 + 1 ));
     int size = chunkSize/2;
     for(int u = 0; u < size; u++){
         for(int v = 0; v < size; v++){

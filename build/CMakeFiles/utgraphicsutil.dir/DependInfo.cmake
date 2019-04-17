@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/u/hwett/Desktop/graphics/minecraft/lib/utgraphicsutil/debuggl.cc" "/u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/utgraphicsutil.dir/lib/utgraphicsutil/debuggl.cc.o"
-  "/u/hwett/Desktop/graphics/minecraft/lib/utgraphicsutil/jpegio.cc" "/u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/utgraphicsutil.dir/lib/utgraphicsutil/jpegio.cc.o"
+  "/u/annyue/Graphics/minecraft/lib/utgraphicsutil/debuggl.cc" "/u/annyue/Graphics/minecraft/build/CMakeFiles/utgraphicsutil.dir/lib/utgraphicsutil/debuggl.cc.o"
+  "/u/annyue/Graphics/minecraft/lib/utgraphicsutil/jpegio.cc" "/u/annyue/Graphics/minecraft/build/CMakeFiles/utgraphicsutil.dir/lib/utgraphicsutil/jpegio.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

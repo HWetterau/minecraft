@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /u/hwett/Desktop/graphics/minecraft
+CMAKE_SOURCE_DIR = /u/annyue/Graphics/minecraft
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /u/hwett/Desktop/graphics/minecraft/build
+CMAKE_BINARY_DIR = /u/annyue/Graphics/minecraft/build
 
 # Include any dependencies generated for this target.
 include src/CMakeFiles/minecraft.dir/depend.make
@@ -59,16 +59,16 @@ include src/CMakeFiles/minecraft.dir/flags.make
 
 src/CMakeFiles/minecraft.dir/camera.cc.o: src/CMakeFiles/minecraft.dir/flags.make
 src/CMakeFiles/minecraft.dir/camera.cc.o: ../src/camera.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/u/hwett/Desktop/graphics/minecraft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/minecraft.dir/camera.cc.o"
-	cd /u/hwett/Desktop/graphics/minecraft/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/minecraft.dir/camera.cc.o -c /u/hwett/Desktop/graphics/minecraft/src/camera.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/u/annyue/Graphics/minecraft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/minecraft.dir/camera.cc.o"
+	cd /u/annyue/Graphics/minecraft/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/minecraft.dir/camera.cc.o -c /u/annyue/Graphics/minecraft/src/camera.cc
 
 src/CMakeFiles/minecraft.dir/camera.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/minecraft.dir/camera.cc.i"
-	cd /u/hwett/Desktop/graphics/minecraft/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /u/hwett/Desktop/graphics/minecraft/src/camera.cc > CMakeFiles/minecraft.dir/camera.cc.i
+	cd /u/annyue/Graphics/minecraft/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /u/annyue/Graphics/minecraft/src/camera.cc > CMakeFiles/minecraft.dir/camera.cc.i
 
 src/CMakeFiles/minecraft.dir/camera.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/minecraft.dir/camera.cc.s"
-	cd /u/hwett/Desktop/graphics/minecraft/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /u/hwett/Desktop/graphics/minecraft/src/camera.cc -o CMakeFiles/minecraft.dir/camera.cc.s
+	cd /u/annyue/Graphics/minecraft/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /u/annyue/Graphics/minecraft/src/camera.cc -o CMakeFiles/minecraft.dir/camera.cc.s
 
 src/CMakeFiles/minecraft.dir/camera.cc.o.requires:
 
@@ -83,16 +83,16 @@ src/CMakeFiles/minecraft.dir/camera.cc.o.provides.build: src/CMakeFiles/minecraf
 
 src/CMakeFiles/minecraft.dir/main.cc.o: src/CMakeFiles/minecraft.dir/flags.make
 src/CMakeFiles/minecraft.dir/main.cc.o: ../src/main.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/u/hwett/Desktop/graphics/minecraft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/minecraft.dir/main.cc.o"
-	cd /u/hwett/Desktop/graphics/minecraft/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/minecraft.dir/main.cc.o -c /u/hwett/Desktop/graphics/minecraft/src/main.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/u/annyue/Graphics/minecraft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/minecraft.dir/main.cc.o"
+	cd /u/annyue/Graphics/minecraft/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/minecraft.dir/main.cc.o -c /u/annyue/Graphics/minecraft/src/main.cc
 
 src/CMakeFiles/minecraft.dir/main.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/minecraft.dir/main.cc.i"
-	cd /u/hwett/Desktop/graphics/minecraft/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /u/hwett/Desktop/graphics/minecraft/src/main.cc > CMakeFiles/minecraft.dir/main.cc.i
+	cd /u/annyue/Graphics/minecraft/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /u/annyue/Graphics/minecraft/src/main.cc > CMakeFiles/minecraft.dir/main.cc.i
 
 src/CMakeFiles/minecraft.dir/main.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/minecraft.dir/main.cc.s"
-	cd /u/hwett/Desktop/graphics/minecraft/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /u/hwett/Desktop/graphics/minecraft/src/main.cc -o CMakeFiles/minecraft.dir/main.cc.s
+	cd /u/annyue/Graphics/minecraft/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /u/annyue/Graphics/minecraft/src/main.cc -o CMakeFiles/minecraft.dir/main.cc.s
 
 src/CMakeFiles/minecraft.dir/main.cc.o.requires:
 
@@ -123,8 +123,8 @@ bin/minecraft: libutgraphicsutil.a
 bin/minecraft: /usr/lib/x86_64-linux-gnu/libGLEW.so
 bin/minecraft: /usr/lib/x86_64-linux-gnu/libjpeg.so
 bin/minecraft: src/CMakeFiles/minecraft.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/u/hwett/Desktop/graphics/minecraft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable ../bin/minecraft"
-	cd /u/hwett/Desktop/graphics/minecraft/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/minecraft.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/u/annyue/Graphics/minecraft/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable ../bin/minecraft"
+	cd /u/annyue/Graphics/minecraft/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/minecraft.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 src/CMakeFiles/minecraft.dir/build: bin/minecraft
@@ -137,10 +137,10 @@ src/CMakeFiles/minecraft.dir/requires: src/CMakeFiles/minecraft.dir/main.cc.o.re
 .PHONY : src/CMakeFiles/minecraft.dir/requires
 
 src/CMakeFiles/minecraft.dir/clean:
-	cd /u/hwett/Desktop/graphics/minecraft/build/src && $(CMAKE_COMMAND) -P CMakeFiles/minecraft.dir/cmake_clean.cmake
+	cd /u/annyue/Graphics/minecraft/build/src && $(CMAKE_COMMAND) -P CMakeFiles/minecraft.dir/cmake_clean.cmake
 .PHONY : src/CMakeFiles/minecraft.dir/clean
 
 src/CMakeFiles/minecraft.dir/depend:
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /u/hwett/Desktop/graphics/minecraft /u/hwett/Desktop/graphics/minecraft/src /u/hwett/Desktop/graphics/minecraft/build /u/hwett/Desktop/graphics/minecraft/build/src /u/hwett/Desktop/graphics/minecraft/build/src/CMakeFiles/minecraft.dir/DependInfo.cmake --color=$(COLOR)
+	cd /u/annyue/Graphics/minecraft/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /u/annyue/Graphics/minecraft /u/annyue/Graphics/minecraft/src /u/annyue/Graphics/minecraft/build /u/annyue/Graphics/minecraft/build/src /u/annyue/Graphics/minecraft/build/src/CMakeFiles/minecraft.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : src/CMakeFiles/minecraft.dir/depend
 
