@@ -88,7 +88,7 @@ void generate(glm::vec4 world_pos) {
     int index = 0;
     cout<<endl;
     cout<<"center: "<<glm::to_string(world_pos+glm::vec4(0,0,0,0))<<endl<<endl;
-    grid(world_pos);
+    compute(world_pos);
     for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
                 // float height = amplitude + (amplitude * sin(glm::dot(direction, glm::vec2(x + startx, z + startz)) * w ));
@@ -124,7 +124,7 @@ void generate(glm::vec4 world_pos) {
     }
     // cout<<endl;
     // cout<<"left: "<<glm::to_string(world_pos+glm::vec4(-chunkSize,0,0,0))<<endl<<endl;
-    grid(world_pos+glm::vec4(-chunkSize,0,0,0));
+    compute(world_pos+glm::vec4(-chunkSize,0,0,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
             int clampHeight = glm::clamp(big_grid[x][z],-8,8);
@@ -132,9 +132,9 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    // cout<<endl;
-    //  cout<<"right: "<<glm::to_string(world_pos+glm::vec4(chunkSize,0,0,0))<<endl<<endl;
-    grid(world_pos+glm::vec4(chunkSize,0,0,0));
+    // // cout<<endl;
+    // //  cout<<"right: "<<glm::to_string(world_pos+glm::vec4(chunkSize,0,0,0))<<endl<<endl;
+    compute(world_pos+glm::vec4(chunkSize,0,0,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
             int clampHeight = glm::clamp(big_grid[x][z],-8,8);
@@ -142,9 +142,9 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    // cout<<endl;
-    // cout<<"up_left: "<<glm::to_string(world_pos+glm::vec4(-chunkSize,-chunkSize,0,0))<<endl<<endl;
-    grid(world_pos+glm::vec4(-chunkSize,0,-chunkSize,0));
+    // // cout<<endl;
+    // // cout<<"up_left: "<<glm::to_string(world_pos+glm::vec4(-chunkSize,-chunkSize,0,0))<<endl<<endl;
+    compute(world_pos+glm::vec4(-chunkSize,0,-chunkSize,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
             int clampHeight = glm::clamp(big_grid[x][z],-8,8);
@@ -152,9 +152,9 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    // cout<<endl;
-    // cout<<"up_center: "<<glm::to_string(world_pos+glm::vec4(0,-chunkSize,0,0))<<endl<<endl;
-    grid(world_pos+glm::vec4(0,0,-chunkSize,0));
+    // // cout<<endl;
+    // // cout<<"up_center: "<<glm::to_string(world_pos+glm::vec4(0,-chunkSize,0,0))<<endl<<endl;
+    compute(world_pos+glm::vec4(0,0,-chunkSize,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
             int clampHeight = glm::clamp(big_grid[x][z],-8,8);
@@ -162,9 +162,9 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    // cout<<endl;
-    // cout<<"up_right: "<<glm::to_string(world_pos+glm::vec4(chunkSize,-chunkSize,0,0))<<endl<<endl;
-    grid(world_pos+glm::vec4(chunkSize,0,-chunkSize,0));
+    // // cout<<endl;
+    // // cout<<"up_right: "<<glm::to_string(world_pos+glm::vec4(chunkSize,-chunkSize,0,0))<<endl<<endl;
+    compute(world_pos+glm::vec4(chunkSize,0,-chunkSize,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
             int clampHeight = glm::clamp(big_grid[x][z],-8,8);
@@ -172,9 +172,9 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    // cout<<endl;
-    // cout<<"down_left: "<<glm::to_string(world_pos+glm::vec4(-chunkSize,chunkSize,0,0))<<endl<<endl;
-    grid(world_pos+glm::vec4(-chunkSize,0,chunkSize,0));
+    // // cout<<endl;
+    // // cout<<"down_left: "<<glm::to_string(world_pos+glm::vec4(-chunkSize,chunkSize,0,0))<<endl<<endl;
+    compute(world_pos+glm::vec4(-chunkSize,0,chunkSize,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
             int clampHeight = glm::clamp(big_grid[x][z],-8,8);
@@ -182,9 +182,9 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    // cout<<endl;
-    // cout<<"down_center: "<<glm::to_string(world_pos+glm::vec4(0,chunkSize,0,0))<<endl<<endl;
-    grid(world_pos+glm::vec4(0,0,chunkSize,0));
+    // // cout<<endl;
+    // // cout<<"down_center: "<<glm::to_string(world_pos+glm::vec4(0,chunkSize,0,0))<<endl<<endl;
+    compute(world_pos+glm::vec4(0,0,chunkSize,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
             int clampHeight = glm::clamp(big_grid[x][z],-8,8);
@@ -192,9 +192,9 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    // cout<<endl;
-    // cout<<"down_right: "<<glm::to_string(world_pos+glm::vec4(chunkSize,chunkSize,0,0))<<endl<<endl;
-    grid(world_pos+glm::vec4(chunkSize,0,chunkSize,0));
+    // // cout<<endl;
+    // // cout<<"down_right: "<<glm::to_string(world_pos+glm::vec4(chunkSize,chunkSize,0,0))<<endl<<endl;
+    compute(world_pos+glm::vec4(chunkSize,0,chunkSize,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
             int clampHeight = glm::clamp(big_grid[x][z],-8,8);
@@ -208,9 +208,92 @@ void generate(glm::vec4 world_pos) {
 	// float height_2 = amplitude_2 * sin(dot(direction_2, vec2(offset[0], offset[2])) * w_2 + time * speed_2);
 
 }
-double fade(double t) {return 6*pow(t,5) - 15*pow(t,4) + 10 * pow(t,3);}
-//linear interpolate v0 and v1
-double lerp( double v0, double v1, double t) { return (1-t) * v0 + t * v1; }
+float fade (float t) {
+	return t * t * t * (t * (t * 6 - 15) + 10);
+}
+
+float lerp(float t, float a, float b) { return a + t * (b - a); }
+float grad(int hash, float x, float y, float z)
+{
+	switch(hash & 0xF)
+		{
+				case 0x0: return  x + y;
+				case 0x1: return -x + y;
+				case 0x2: return  x - y;
+				case 0x3: return -x - y;
+				case 0x4: return  x + z;
+				case 0x5: return -x + z;
+				case 0x6: return  x - z;
+				case 0x7: return -x - z;
+				case 0x8: return  y + z;
+				case 0x9: return -y + z;
+				case 0xA: return  y - z;
+				case 0xB: return -y - z;
+				case 0xC: return  y + x;
+				case 0xD: return -y + z;
+				case 0xE: return  y - x;
+				case 0xF: return -y - z;
+				default: return 0; 
+		}
+}
+
+float perlin(float x_coord, float y_coord, float z_coord){
+    y_coord = 0;
+    //which chunk
+	int X = (int)floor(x_coord/chunkSize) & 255;
+	int Y = (int)floor(y_coord/chunkSize) & 255;
+	int Z =	(int)floor(z_coord/chunkSize) & 255;
+    
+    //relative position in chunk
+	float x = x_coord/chunkSize - floor(x_coord/chunkSize);
+	float y = y_coord/chunkSize - floor(y_coord/chunkSize);
+	float z = z_coord/chunkSize - floor(z_coord/chunkSize);
+
+	 float u = fade(x), v = fade(y), w = fade(z);
+	 int A = p[X ]+Y, AA = p[A]+Z, AB = p[A+1]+Z,      
+		 B = p[X+1]+Y, BA = p[B]+Z, BB = p[B+1]+Z;     
+
+	 float result = lerp(w, lerp(v, lerp(u, grad(p[AA  ], x  , y  , z   ),  
+											grad(p[BA  ], x-1, y  , z   )), 
+									lerp(u, grad(p[AB  ], x  , y-1, z   ),  
+											grad(p[BB  ], x-1, y-1, z   ))),
+							lerp(v, lerp(u, grad(p[AA+1], x  , y  , z-1 ), 
+											grad(p[BA+1], x-1, y  , z-1 )), 
+									lerp(u, grad(p[AB+1], x  , y-1, z-1 ),
+											grad(p[BB+1], x-1, y-1, z-1 ))));
+
+		result = (result + 1) / 2;
+		return result;
+}
+
+float octaves(float x, float y, float z, int octaves, float persistence) {
+    float total = 0;
+    float frequency = 1;
+    float amplitude =15;
+    float maxValue = 0;  
+    for(int i=0;i<octaves;i++) {
+        total += perlin(x * frequency, y * frequency, z * frequency) * amplitude;
+
+        maxValue += amplitude;
+
+        amplitude *= persistence;
+        frequency *= 2;
+    }
+    //return total/maxValue;
+    return total;
+}
+
+void compute(glm::vec4 world_pos){
+
+    int x_start = floor(world_pos.x/chunkSize) * chunkSize;
+    int z_start = floor(world_pos.z/chunkSize) * chunkSize;
+
+    for(int x = 0; x < chunkSize; x++){
+        for(int z = 0; z < chunkSize; z++){
+            big_grid[x][z] =  octaves(x_start+x, 0.0, z_start+z, 3, 0.5) - 10;
+        }
+    }
+}
 
 void grid(glm::vec4 world_pos){
     
@@ -249,9 +332,9 @@ void grid(glm::vec4 world_pos){
     
                             
             big_grid[u][v]= floor(result * 16);
-            cout<< result*16<<" ";
+            //cout<< result*16<<" ";
         }
-        cout << endl;
+        //cout << endl;
     }
     glm::vec2 dc = glm::normalize(glm::vec2(rand() % 10 + 1 ,rand() % 10 + 1 ));
     glm::vec2 da = glm::normalize(glm::vec2(rand() % 10 + 1 ,rand() % 10 + 1 ));

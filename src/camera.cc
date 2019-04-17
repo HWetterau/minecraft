@@ -84,6 +84,7 @@ void Camera::left_drag(double delta_x, double delta_y) {
 	front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
 	look_ = glm::normalize(front);
 	center_ = eye_ + (camera_distance_ * look_);
+	tangent_ = glm::normalize(glm::cross(look_, up_));
 
 	// cout << "look " << look_.y << endl;
 	// cout << "delta y " << delta_y << endl;

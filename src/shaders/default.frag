@@ -30,7 +30,7 @@ float grad(int hash, float x, float y, float z)
 				case 0xD: return -y + z;
 				case 0xE: return  y - x;
 				case 0xF: return -y - z;
-				default: return 0; // never happens
+				default: return 0; 
 		}
 }
 
@@ -46,30 +46,28 @@ float perlin(float xx, float yy, float zz){
 	float y = yy - floor(yy);
 	float z = zz - floor(zz);
 
-	 float u = fade(x),                                // COMPUTE FADE CURVES
-					v = fade(y),                                // FOR EACH OF X,Y,Z.
-					w = fade(z);
-	 int A = p[X ]+Y, AA = p[A]+Z, AB = p[A+1]+Z,      // HASH COORDINATES OF
-			 B = p[X+1]+Y, BA = p[B]+Z, BB = p[B+1]+Z;      // THE 8 CUBE CORNERS,
+	 float u = fade(x), v = fade(y), w = fade(z);
+	 int A = p[X ]+Y, AA = p[A]+Z, AB = p[A+1]+Z,      
+		 B = p[X+1]+Y, BA = p[B]+Z, BB = p[B+1]+Z;     
 
-	 float result = lerp(w, lerp(v, lerp(u, grad(p[AA  ], x  , y  , z   ),  // AND ADD
-																	grad(p[BA  ], x-1, y  , z   )), // BLENDED
-													lerp(u, grad(p[AB  ], x  , y-1, z   ),  // RESULTS
-																	grad(p[BB  ], x-1, y-1, z   ))),// FROM  8
-									lerp(v, lerp(u, grad(p[AA+1], x  , y  , z-1 ),  // CORNERS
-																	grad(p[BA+1], x-1, y  , z-1 )), // OF CUBE
-													lerp(u, grad(p[AB+1], x  , y-1, z-1 ),
-																	grad(p[BB+1], x-1, y-1, z-1 ))));
+	 float result = lerp(w, lerp(v, lerp(u, grad(p[AA  ], x  , y  , z   ),  
+											grad(p[BA  ], x-1, y  , z   )), 
+									lerp(u, grad(p[AB  ], x  , y-1, z   ),  
+											grad(p[BB  ], x-1, y-1, z   ))),
+							lerp(v, lerp(u, grad(p[AA+1], x  , y  , z-1 ), 
+											grad(p[BA+1], x-1, y  , z-1 )), 
+									lerp(u, grad(p[AB+1], x  , y-1, z-1 ),
+											grad(p[BB+1], x-1, y-1, z-1 ))));
 
 		result = (result + 1) / 2;
 		return result;
 }
 
-float OctavePerlin(float x, float y, float z, int octaves, float persistence) {
+float octaves(float x, float y, float z, int octaves, float persistence) {
     float total = 0;
     float frequency = 1;
     float amplitude = 1;
-    float maxValue = 0;  // Used for normalizing result to 0.0 - 1.0
+    float maxValue = 0;  
     for(int i=0;i<octaves;i++) {
         total += perlin(x * frequency, y * frequency, z * frequency) * amplitude;
 
@@ -84,15 +82,26 @@ float OctavePerlin(float x, float y, float z, int octaves, float persistence) {
 void main() {
 	vec4 color;
 	if(world_pos.y < 0.0001){
-		float result = OctavePerlin(world_pos.x,world_pos.y,world_pos.z,3, 0.5);
-		//float result = perlin(world_pos.x * 2,world_pos.y * 2,world_pos.z * 2);
-		//result += (0.25 *sin(x - z));
+		//STONE
+		float result = octaves(world_pos.x,world_pos.y,world_pos.z,3, 0.75);
+	
+		result = (sin(world_pos.x*10 - world_pos.z*10 + 20 * result));
+		result = (result + 1) / 2;
 		vec4 mult = vec4(result, result, result,1);
-		color = mult * vec4(0.5, 0.5, 0.5, 1.0);
+		color = mult * vec4(0.2, 0.2, 0.2, 1.0);
+		color += vec4(0.2, 0.2, 0.2, 1.0);
 	} else if(world_pos.y < 2.0001){
-		color = vec4(0.3, 0.2, 0.0, 1.0);
+		//DIRT
+		float result = octaves(world_pos.x,world_pos.y,world_pos.z,3, 0.75);
+		vec4 mult = vec4(result, result, result,1);
+		color =  vec4(0.2, 0.15, 0.0, 1.0);
+		color += mult * vec4(0.4, 0.4, 0.4, 1.0);
 	}else{
-		color = vec4(0.02,0.9,0.0,1.0);
+		//GRASS
+		float result = octaves(world_pos.x,world_pos.y,world_pos.z,3, 0.75);
+		vec4 mult = vec4(result, result, result,1);
+		color = vec4(0.2,0.9,0.05,1.0);
+		color += (mult *  vec4(0.5, 0.5, 0.5, 1.0) - vec4(0.3,0.3,0.3,0.0));
 	}
 		float dot_nl = dot(normalize(light_direction), normalize(normal));
 		dot_nl = clamp(dot_nl, 0.0, 1.0);

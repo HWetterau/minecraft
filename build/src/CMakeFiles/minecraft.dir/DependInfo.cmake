@@ -4,10 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/hannahwetterau/Documents/college homework/graphics/minecraft/src/camera.cc" "/Users/hannahwetterau/Documents/college homework/graphics/minecraft/build/src/CMakeFiles/minecraft.dir/camera.cc.o"
-  "/Users/hannahwetterau/Documents/college homework/graphics/minecraft/src/main.cc" "/Users/hannahwetterau/Documents/college homework/graphics/minecraft/build/src/CMakeFiles/minecraft.dir/main.cc.o"
+  "/u/annyue/Graphics/minecraft/src/camera.cc" "/u/annyue/Graphics/minecraft/build/src/CMakeFiles/minecraft.dir/camera.cc.o"
+  "/u/annyue/Graphics/minecraft/src/main.cc" "/u/annyue/Graphics/minecraft/build/src/CMakeFiles/minecraft.dir/main.cc.o"
   )
-set(CMAKE_CXX_COMPILER_ID "Clang")
+set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_CXX
@@ -18,16 +18,17 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "/usr/include/eigen3"
   "/usr/local/include"
   "/opt/local/include"
   "../lib"
-  "/usr/local/Cellar/glfw/3.2.1/include"
+  "/lusr/opt/glfw-3.2.1/include"
   "../lib/utgraphicsutil"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/Users/hannahwetterau/Documents/college homework/graphics/minecraft/build/CMakeFiles/utgraphicsutil.dir/DependInfo.cmake"
+  "/u/annyue/Graphics/minecraft/build/CMakeFiles/utgraphicsutil.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

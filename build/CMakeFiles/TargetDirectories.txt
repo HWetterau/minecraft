@@ -1,6 +1,6 @@
-/Users/hannahwetterau/Documents/college homework/graphics/minecraft/build/CMakeFiles/rebuild_cache.dir
-/Users/hannahwetterau/Documents/college homework/graphics/minecraft/build/CMakeFiles/edit_cache.dir
-/Users/hannahwetterau/Documents/college homework/graphics/minecraft/build/CMakeFiles/utgraphicsutil.dir
-/Users/hannahwetterau/Documents/college homework/graphics/minecraft/build/src/CMakeFiles/rebuild_cache.dir
-/Users/hannahwetterau/Documents/college homework/graphics/minecraft/build/src/CMakeFiles/edit_cache.dir
-/Users/hannahwetterau/Documents/college homework/graphics/minecraft/build/src/CMakeFiles/minecraft.dir
+/u/annyue/Graphics/minecraft/build/CMakeFiles/rebuild_cache.dir
+/u/annyue/Graphics/minecraft/build/CMakeFiles/utgraphicsutil.dir
+/u/annyue/Graphics/minecraft/build/CMakeFiles/edit_cache.dir
+/u/annyue/Graphics/minecraft/build/src/CMakeFiles/rebuild_cache.dir
+/u/annyue/Graphics/minecraft/build/src/CMakeFiles/minecraft.dir
+/u/annyue/Graphics/minecraft/build/src/CMakeFiles/edit_cache.dir
