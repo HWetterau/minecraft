@@ -19,24 +19,30 @@ public:
 	void down_pan();
 	void left_drag(double delta_x, double delta_y);
 	glm::vec4 get_eye() const;
-	void toggle_gravity() { gravity = !gravity; };
+	void toggle_gravity() { gravity_on = !gravity_on; };
+	void jump();
+	bool is_jumping() { return jumping; };
+	void update_height();
 ;
 
 
 private:
-	bool gravity = true;
+	bool gravity_on = true;
 	float camera_distance_ = 3.0;
 	glm::vec3 look_ = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 up_ = glm::vec3(0.0f, 1.0f, 0.0f);
 	// glm::vec3 look_ = glm::vec3(0.0f, -1.0/sqrt(2.0), -1.0/sqrt(2.0));
 	// glm::vec3 up_ = glm::vec3(0.0f, 1.0/sqrt(2.0), -1.0/sqrt(2.0));
-	glm::vec3 eye_ = glm::vec3(0.0f, 6.75f, camera_distance_);
+	glm::vec3 eye_ = glm::vec3(0.0f,1.75f, camera_distance_);
 	// Note: you may need additional member variables
 	glm::vec3 tangent_ = glm::normalize(glm::cross(look_, up_));
 	glm::vec3 center_ = eye_ + (camera_distance_ * look_);
 
 	float pitch = 0.0f;
 	float yaw = 0.0f;
+	float velocity = 0.0f;
+	float gravity = -0.1f;
+	bool jumping = false;
 };
 
 #endif

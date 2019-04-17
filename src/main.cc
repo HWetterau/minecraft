@@ -139,21 +139,25 @@ KeyCallback(GLFWwindow* window,
 		// FIXME: 
 		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.w_move_forward();
+		if(!change_chunk)
 		change_chunk = border(oldPos,g_camera.get_eye());
 
 	} else if (key == GLFW_KEY_S && mods != GLFW_MOD_CONTROL && action != GLFW_RELEASE) {
 		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.s_move_backward();
+		if(!change_chunk)
 		change_chunk = border(oldPos,g_camera.get_eye());
 
 	} else if (key == GLFW_KEY_A && action != GLFW_RELEASE) {
 		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.a_strafe_left();
+		if(!change_chunk)
 		change_chunk = border(oldPos,g_camera.get_eye());
 
 	} else if (key == GLFW_KEY_D && action != GLFW_RELEASE) {
 		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.d_strafe_right();
+		if(!change_chunk)
 		change_chunk = border(oldPos,g_camera.get_eye());
 
 	} else if (key == GLFW_KEY_LEFT && action != GLFW_RELEASE) {
@@ -177,18 +181,30 @@ KeyCallback(GLFWwindow* window,
 		// toggle gravity
 		g_camera.toggle_gravity();
 
-	} 
+	} else if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
+		cout << "jump!" << endl;
+		g_camera.jump();
+	}
 
 }
 
 int g_current_button;
 bool g_mouse_pressed;
 //ADDED
+bool firstMouse = true;
 float last_x_ = 0.0f, last_y_ = 0.0f, current_x_ = 0.0f, current_y_ = 0.0f;
 
 void
 MousePosCallback(GLFWwindow* window, double mouse_x, double mouse_y)
 {	
+	//supposedly eliminating the jump...
+	if(firstMouse)
+    {
+        last_x_ = mouse_x;
+        last_y_ = mouse_y;
+        firstMouse = false;
+    }
+
 	last_x_ = current_x_;
 	last_y_ = current_y_;
 	current_x_ = mouse_x;
@@ -354,12 +370,43 @@ int main(int argc, char* argv[])
 			glGetUniformLocation(default_program_id, "view"));
 	GLint light_position_location = 0;
 	GLint camera_position_location = 0;
+	GLint permutation_location = 0;
 
 	CHECK_GL_ERROR(light_position_location =
 			glGetUniformLocation(default_program_id, "light_position"));
+	CHECK_GL_ERROR(permutation_location =
+			glGetUniformLocation(default_program_id, "p"));
 
 	// CHECK_GL_ERROR(camera_position_location =
 	// 		glGetUniformLocation(default_program_id, "camera_position"));
+int p[512] = { 151,160,137,91,90,15,                 
+    131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,   
+    190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
+    88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
+    77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
+    102,143,54, 65,25,63,161, 1,216,80,73,209,76,132,187,208, 89,18,169,200,196,
+    135,130,116,188,159,86,164,100,109,198,173,186, 3,64,52,217,226,250,124,123,
+    5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,
+    223,183,170,213,119,248,152, 2,44,154,163, 70,221,153,101,155,167, 43,172,9,
+    129,22,39,253, 19,98,108,110,79,113,224,232,178,185, 112,104,218,246,97,228,
+    251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
+    49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
+    138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180,
+	151,160,137,91,90,15,                 
+    131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,   
+    190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
+    88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
+    77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
+    102,143,54, 65,25,63,161, 1,216,80,73,209,76,132,187,208, 89,18,169,200,196,
+    135,130,116,188,159,86,164,100,109,198,173,186, 3,64,52,217,226,250,124,123,
+    5,202,38,147,118,126,255,82,85,212,207,206,59,227,47,16,58,17,182,189,28,42,
+    223,183,170,213,119,248,152, 2,44,154,163, 70,221,153,101,155,167, 43,172,9,
+    129,22,39,253, 19,98,108,110,79,113,224,232,178,185, 112,104,218,246,97,228,
+    251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
+    49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
+    138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
+};
+
 
 
 int num_trans = 900;
@@ -434,7 +481,7 @@ std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), 
 			std::copy(terrain.down_left_offsets.begin(), terrain.down_left_offsets.end(), dltranslations);
 			std::copy(terrain.down_center_offsets.begin(), terrain.down_center_offsets.end(), dctranslations);
 			std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), drtranslations);
-			 change_chunk = false;
+			change_chunk = false;
 		}
 
 		// Compute the projection matrix.
@@ -455,6 +502,17 @@ std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), 
 		CHECK_GL_ERROR(glUniformMatrix4fv(view_matrix_location, 1, GL_FALSE,
 					&view_matrix[0][0]));
 		CHECK_GL_ERROR(glUniform4fv(light_position_location, 1, &light_position[0]));
+
+		// for (int i = 0; i < permutation.length; ++i) {
+			
+		// }
+		CHECK_GL_ERROR(glUniform1iv(permutation_location, 512, &p[0]));
+
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &ctranslations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.center_offsets.size()));
+
 
 		for (int i = 0; i < num_trans; ++i){
 					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &ultranslations[i][0]));
@@ -478,12 +536,6 @@ std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), 
 					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &ltranslations[i][0]));
 				}
 		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.left_offsets.size()));
-
-		for (int i = 0; i < num_trans; ++i){
-					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &ctranslations[i][0]));
-				}
-		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.center_offsets.size()));
-
 		
 		for (int i = 0; i < num_trans; ++i){
 					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &rtranslations[i][0]));
@@ -508,7 +560,9 @@ std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), 
 		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.down_right_offsets.size()));
 
 
-
+		if (g_camera.is_jumping()) {
+			g_camera.update_height();
+		}
 		// Draw our triangles.
 		//CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0));
 

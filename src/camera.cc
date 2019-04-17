@@ -103,3 +103,23 @@ void Camera::left_drag(double delta_x, double delta_y) {
 	// center_ = eye_ + (camera_distance_ * look_);
 
 }
+
+
+
+void Camera::jump() {
+	if (!jumping) {
+		velocity = 0.5f;
+		jumping = true;
+
+	}
+}
+
+void Camera::update_height() {
+	if (velocity < -0.4) {
+		jumping = false;
+	}
+	eye_.y += velocity;
+	velocity += gravity;
+	center_ = eye_ + (camera_distance_ * look_);
+	
+}

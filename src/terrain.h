@@ -122,8 +122,8 @@ void generate(glm::vec4 world_pos) {
                 // }                         
         }
     }
-    cout<<endl;
-    cout<<"left: "<<glm::to_string(world_pos+glm::vec4(-chunkSize,0,0,0))<<endl<<endl;
+    // cout<<endl;
+    // cout<<"left: "<<glm::to_string(world_pos+glm::vec4(-chunkSize,0,0,0))<<endl<<endl;
     grid(world_pos+glm::vec4(-chunkSize,0,0,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
@@ -132,8 +132,8 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    cout<<endl;
-     cout<<"right: "<<glm::to_string(world_pos+glm::vec4(chunkSize,0,0,0))<<endl<<endl;
+    // cout<<endl;
+    //  cout<<"right: "<<glm::to_string(world_pos+glm::vec4(chunkSize,0,0,0))<<endl<<endl;
     grid(world_pos+glm::vec4(chunkSize,0,0,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
@@ -142,8 +142,8 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    cout<<endl;
-    cout<<"up_left: "<<glm::to_string(world_pos+glm::vec4(-chunkSize,-chunkSize,0,0))<<endl<<endl;
+    // cout<<endl;
+    // cout<<"up_left: "<<glm::to_string(world_pos+glm::vec4(-chunkSize,-chunkSize,0,0))<<endl<<endl;
     grid(world_pos+glm::vec4(-chunkSize,0,-chunkSize,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
@@ -152,8 +152,8 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    cout<<endl;
-    cout<<"up_center: "<<glm::to_string(world_pos+glm::vec4(0,-chunkSize,0,0))<<endl<<endl;
+    // cout<<endl;
+    // cout<<"up_center: "<<glm::to_string(world_pos+glm::vec4(0,-chunkSize,0,0))<<endl<<endl;
     grid(world_pos+glm::vec4(0,0,-chunkSize,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
@@ -162,8 +162,8 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    cout<<endl;
-    cout<<"up_right: "<<glm::to_string(world_pos+glm::vec4(chunkSize,-chunkSize,0,0))<<endl<<endl;
+    // cout<<endl;
+    // cout<<"up_right: "<<glm::to_string(world_pos+glm::vec4(chunkSize,-chunkSize,0,0))<<endl<<endl;
     grid(world_pos+glm::vec4(chunkSize,0,-chunkSize,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
@@ -172,8 +172,8 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    cout<<endl;
-    cout<<"down_left: "<<glm::to_string(world_pos+glm::vec4(-chunkSize,chunkSize,0,0))<<endl<<endl;
+    // cout<<endl;
+    // cout<<"down_left: "<<glm::to_string(world_pos+glm::vec4(-chunkSize,chunkSize,0,0))<<endl<<endl;
     grid(world_pos+glm::vec4(-chunkSize,0,chunkSize,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
@@ -182,8 +182,8 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    cout<<endl;
-    cout<<"down_center: "<<glm::to_string(world_pos+glm::vec4(0,chunkSize,0,0))<<endl<<endl;
+    // cout<<endl;
+    // cout<<"down_center: "<<glm::to_string(world_pos+glm::vec4(0,chunkSize,0,0))<<endl<<endl;
     grid(world_pos+glm::vec4(0,0,chunkSize,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
@@ -192,8 +192,8 @@ void generate(glm::vec4 world_pos) {
 
         }
     }
-    cout<<endl;
-    cout<<"down_right: "<<glm::to_string(world_pos+glm::vec4(chunkSize,chunkSize,0,0))<<endl<<endl;
+    // cout<<endl;
+    // cout<<"down_right: "<<glm::to_string(world_pos+glm::vec4(chunkSize,chunkSize,0,0))<<endl<<endl;
     grid(world_pos+glm::vec4(chunkSize,0,chunkSize,0));
      for(int x = min; x < max; ++x){
         for(int z = min; z < max; ++z ){
