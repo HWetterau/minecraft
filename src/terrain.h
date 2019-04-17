@@ -217,14 +217,14 @@ void grid(glm::vec4 world_pos){
    
     int x = floor(world_pos.x/chunkSize);
     int z = floor(world_pos.z/chunkSize);
-    int seed = x * 11 + z; //just chose an arbitrary prime number
+    int seed = x * 653 + z; //just chose an arbitrary prime number
         cout<<"seed "<<seed<<endl;
      //get edge vectors
     srand(seed);
-    glm::vec2 aa = glm::normalize(glm::vec2(rand() % 10 -5 ,rand() % 10 -5 ));
+    glm::vec2 aa = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
     seed = (x + chunkSize) * 653 + z;
     srand(seed);
-    glm::vec2 bb = glm::normalize(glm::vec2(rand() % 10 -5 ,rand() % 10 -5 ));
+    glm::vec2 bb = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
     seed = (x + chunkSize) * 653 + z + chunkSize;
     srand(seed);
     glm::vec2 cc = glm::normalize(glm::vec2(rand() % 10 ,rand() % 10 ));
@@ -252,6 +252,29 @@ void grid(glm::vec4 world_pos){
             cout<< result*16<<" ";
         }
         cout << endl;
+    }
+    glm::vec2 dc = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
+    glm::vec2 da = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
+    glm::vec2 cb = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
+    glm::vec2 ab = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
+    glm::vec2 mid = glm::normalize(glm::vec2(rand() % 10  ,rand() % 10  ));
+    int size = chunkSize/2;
+    for(int u = 0; u < size; u++){
+        for(int v = 0; v < size; v++){
+            glm::vec2 uv = glm::vec2(((double)u)/size,((double)v)/size);
+            glm::vec2 d = glm::vec2(0,1)-uv;
+            glm::vec2 c = glm::vec2(1,1)-uv;
+            glm::vec2 b = glm::vec2(1,0)-uv;
+            glm::vec2 a = glm::vec2(0,0)-uv;
+            // double result =  (1-((double)v)/chunkSize) * ((1-((double)u)/chunkSize)*glm::dot(aa,a)+ ((double)u)/chunkSize * glm::dot(bb,b)) + 
+            //                 ((double)v)/chunkSize * ((1-((double)u)/chunkSize)* glm::dot(dd,d) + ((double)u)/chunkSize * glm::dot(cc,c));
+            double result = lerp(lerp(glm::dot(aa,a),glm::dot(ab,b),fade(((double)u)/size)),
+                                 lerp(glm::dot(da,d),glm::dot(mid,c),fade(((double)u)/size)), 
+                                 fade(((double)v)/size));
+            big_grid[u][v]+= floor(result * 4);
+          
+        }
+    
     }
 
 }
