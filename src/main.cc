@@ -162,11 +162,14 @@ KeyCallback(GLFWwindow* window,
 	} else if (key == GLFW_KEY_RIGHT && action != GLFW_RELEASE) {
 
 	} else if (key == GLFW_KEY_DOWN && action != GLFW_RELEASE) {
+		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.down_pan();
+		change_chunk = border(oldPos,g_camera.get_eye());
 
 	} else if (key == GLFW_KEY_UP && action != GLFW_RELEASE) {
+		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.up_pan();
-
+		change_chunk = border(oldPos,g_camera.get_eye());
 	} else if (key == GLFW_KEY_C && action != GLFW_RELEASE) {
 		// FIXME: FPS mode on/off
 
@@ -451,7 +454,7 @@ std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), 
 		// Compute the projection matrix.
 		aspect = static_cast<float>(window_width) / window_height;
 		glm::mat4 projection_matrix =
-			glm::perspective(glm::radians(45.0f), aspect, 0.0001f, 1000.0f);
+			glm::perspective(glm::radians(45.0f), aspect, 0.2f, 100.0f);
 
 		// Compute the view matrix
 		// FIXME: change eye and center through mouse/keyboard events.

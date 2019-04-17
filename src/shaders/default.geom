@@ -15,6 +15,7 @@ void main()
 	normal = vec4(normalize(cross(a,b)), 0);
 	for (int n = 0; n < gl_in.length(); n++) {
 		light_direction = normalize(light_position - gl_in[n].gl_Position);
+		//light_direction = normalize(light_position - vec4(0.0,0.0,0.0,1.0));
 		gl_Position = projection * view * gl_in[n].gl_Position;
 		world_pos = gl_in[n].gl_Position;
 		EmitVertex();
