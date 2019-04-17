@@ -4,10 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/u/annyue/Graphics/minecraft/lib/utgraphicsutil/debuggl.cc" "/u/annyue/Graphics/minecraft/build/CMakeFiles/utgraphicsutil.dir/lib/utgraphicsutil/debuggl.cc.o"
-  "/u/annyue/Graphics/minecraft/lib/utgraphicsutil/jpegio.cc" "/u/annyue/Graphics/minecraft/build/CMakeFiles/utgraphicsutil.dir/lib/utgraphicsutil/jpegio.cc.o"
+  "/Users/hannahwetterau/Documents/college homework/graphics/minecraft/lib/utgraphicsutil/debuggl.cc" "/Users/hannahwetterau/Documents/college homework/graphics/minecraft/build/CMakeFiles/utgraphicsutil.dir/lib/utgraphicsutil/debuggl.cc.o"
+  "/Users/hannahwetterau/Documents/college homework/graphics/minecraft/lib/utgraphicsutil/jpegio.cc" "/Users/hannahwetterau/Documents/college homework/graphics/minecraft/build/CMakeFiles/utgraphicsutil.dir/lib/utgraphicsutil/jpegio.cc.o"
   )
-set(CMAKE_CXX_COMPILER_ID "GNU")
+set(CMAKE_CXX_COMPILER_ID "Clang")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_CXX
@@ -18,12 +18,11 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "/usr/include/eigen3"
-  "/usr/local/include"
   "/opt/local/include"
   "../lib"
-  "/lusr/opt/glfw-3.2.1/include"
+  "/usr/local/Cellar/glfw/3.2.1/include"
   "../lib/utgraphicsutil"
+  "/usr/local/include"
   )
 
 # Targets to which this target links.

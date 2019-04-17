@@ -6,23 +6,23 @@
 
 #IncludeRegexTransform: 
 
-/u/annyue/Graphics/minecraft/lib/utgraphicsutil/debuggl.cc
+/Users/hannahwetterau/Documents/college homework/graphics/minecraft/lib/utgraphicsutil/debuggl.cc
 debuggl.h
-/u/annyue/Graphics/minecraft/lib/utgraphicsutil/debuggl.h
+/Users/hannahwetterau/Documents/college homework/graphics/minecraft/lib/utgraphicsutil/debuggl.h
 GL/glew.h
 -
 GLFW/glfw3.h
 -
 
-/u/annyue/Graphics/minecraft/lib/utgraphicsutil/debuggl.h
+/Users/hannahwetterau/Documents/college homework/graphics/minecraft/lib/utgraphicsutil/debuggl.h
 
-/u/annyue/Graphics/minecraft/lib/utgraphicsutil/image.h
+/Users/hannahwetterau/Documents/college homework/graphics/minecraft/lib/utgraphicsutil/image.h
 vector
 -
 
-/u/annyue/Graphics/minecraft/lib/utgraphicsutil/jpegio.cc
+/Users/hannahwetterau/Documents/college homework/graphics/minecraft/lib/utgraphicsutil/jpegio.cc
 jpegio.h
-/u/annyue/Graphics/minecraft/lib/utgraphicsutil/jpegio.h
+/Users/hannahwetterau/Documents/college homework/graphics/minecraft/lib/utgraphicsutil/jpegio.h
 vector
 -
 jpeglib.h
@@ -30,13 +30,13 @@ jpeglib.h
 stdio.h
 -
 
-/u/annyue/Graphics/minecraft/lib/utgraphicsutil/jpegio.h
+/Users/hannahwetterau/Documents/college homework/graphics/minecraft/lib/utgraphicsutil/jpegio.h
 string
 -
 image.h
-/u/annyue/Graphics/minecraft/lib/utgraphicsutil/image.h
+/Users/hannahwetterau/Documents/college homework/graphics/minecraft/lib/utgraphicsutil/image.h
 
-/usr/local/include/GLFW/glfw3.h
+/usr/local/Cellar/glfw/3.2.1/include/GLFW/glfw3.h
 stddef.h
 -
 stdint.h
@@ -75,4 +75,36 @@ GL/glext.h
 -
 GL/glu.h
 -
+
+/usr/local/include/GL/glew.h
+stddef.h
+-
+inttypes.h
+-
+stdint.h
+-
+inttypes.h
+-
+Availability.h
+-
+OpenGL/glu.h
+-
+GL/glu.h
+-
+
+/usr/local/include/jconfig.h
+
+/usr/local/include/jerror.h
+
+/usr/local/include/jmorecfg.h
+
+/usr/local/include/jpeglib.h
+jconfig.h
+/usr/local/include/jconfig.h
+jmorecfg.h
+/usr/local/include/jmorecfg.h
+jpegint.h
+/usr/local/include/jpegint.h
+jerror.h
+/usr/local/include/jerror.h
 
