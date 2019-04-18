@@ -74,27 +74,28 @@ void CreateCube (std::vector<glm::vec4>& obj_vertices, std::vector<glm::uvec3>& 
 	double maxZ = maxX;
 
 		//build the cube
-	obj_vertices.push_back(glm::vec4(minX,minY,minZ,1.0f));
-	obj_vertices.push_back(glm::vec4(minX,maxY, minZ,1.0f));
-	obj_vertices.push_back(glm::vec4(maxX,maxY,minZ,1.0f));
-	obj_vertices.push_back(glm::vec4(maxX,minY,minZ,1.0f));
 	obj_vertices.push_back(glm::vec4(minX,minY, maxZ,1.0f));
+	obj_vertices.push_back(glm::vec4(maxX,minY,maxZ,1.0f));
 	obj_vertices.push_back(glm::vec4(minX,maxY,maxZ,1.0f));
 	obj_vertices.push_back(glm::vec4(maxX,maxY,maxZ,1.0f));
-	obj_vertices.push_back(glm::vec4(maxX,minY,maxZ,1.0f));
 
+	obj_vertices.push_back(glm::vec4(minX,minY,minZ,1.0f));
+	obj_vertices.push_back(glm::vec4(maxX,minY,minZ,1.0f));
+	obj_vertices.push_back(glm::vec4(minX,maxY, minZ,1.0f));
+	obj_vertices.push_back(glm::vec4(maxX,maxY,minZ,1.0f));
+	
 	obj_faces.push_back(glm::uvec3(0,1,2));
-	obj_faces.push_back(glm::uvec3(0,2,3));
-	obj_faces.push_back(glm::uvec3(6,5,4));
-	obj_faces.push_back(glm::uvec3(7,6,4));
-	obj_faces.push_back(glm::uvec3(3,2,6));
-	obj_faces.push_back(glm::uvec3(3,6,7));
-	obj_faces.push_back(glm::uvec3(4,5,1));
-	obj_faces.push_back(glm::uvec3(4,1,0));
-	obj_faces.push_back(glm::uvec3(1,5,2));
-	obj_faces.push_back(glm::uvec3(5,6,2));
-	obj_faces.push_back(glm::uvec3(4,0,3));
-	obj_faces.push_back(glm::uvec3(4,3,7));
+	obj_faces.push_back(glm::uvec3(1,3,2));
+	obj_faces.push_back(glm::uvec3(2,3,7));
+	obj_faces.push_back(glm::uvec3(2,7,6));
+	obj_faces.push_back(glm::uvec3(1,7,3));
+	obj_faces.push_back(glm::uvec3(1,5,7));
+	obj_faces.push_back(glm::uvec3(6,7,4));
+	obj_faces.push_back(glm::uvec3(7,5,4));
+	obj_faces.push_back(glm::uvec3(2,6,4));
+	obj_faces.push_back(glm::uvec3(0,2,4));
+	obj_faces.push_back(glm::uvec3(0,4,1));
+	obj_faces.push_back(glm::uvec3(1,4,5));
 
 }
 
@@ -124,31 +125,6 @@ bool border(glm::vec4 oldPos, glm::vec4 newPos) {
 			  floor(oldPos.z/chunkSize) == floor(newPos.z/chunkSize));
 }
 
-// int get_heights(glm::vec4 world_pos, Terrain& t) {
-// 	vector<int> surrounding;
-// 	// int target_x = (int)floor(world_pos.x);
-// 	// int target_z = (int)floor(world_pos.z);
-// 	// for(glm::vec4 offset : t.center_offsets()){
-// 	// 	if((offset.x <= target_x + 1 && offset.x >= target_x - 1) &&(offset.z <= target_z + 1 && offset.z >= target_z - 1)){
-// 	int maxX = (int)floor(world_pos.x + 0.5);
-// 	int minX = (int)floor(world_pos.x - 0.5);
-// 	int maxZ = (int)floor(world_pos.z + 0.5);
-// 	int minZ = (int)floor(world_pos.z - 0.5);
-// 	// 	}
-// 	// }
-// 	int max_height = -10;
-// 	for(int x = minX; x <= maxX; x ++){
-// 		for(int z = minZ; z <= maxZ; z ++){
-// 			int height = t.octaves(x, 0.0, z, 3, 0.5) - 10;
-// 			//surrounding.push_back(height);
-// 			if(height > max_height){
-// 				max_height= height;
-// 			}
-// 		}
-// 	}
-	
-// 	return max_height;
-// }
 
 void
 KeyCallback(GLFWwindow* window,
@@ -577,6 +553,26 @@ for (int i = 0; i < num_trans; ++i){
 				}
 		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.center_offsets.size()));
 
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &uctranslations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.up_center_offsets.size()));
+
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &ltranslations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.left_offsets.size()));
+
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &rtranslations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.right_offsets.size()));
+
+		for (int i = 0; i < num_trans; ++i){
+					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &dctranslations[i][0]));
+				}
+		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.down_center_offsets.size()));
+
 
 		for (int i = 0; i < num_trans; ++i){
 					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &ultranslations[i][0]));
@@ -584,39 +580,18 @@ for (int i = 0; i < num_trans; ++i){
 		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.up_left_offsets.size()));
 		 
 
-		for (int i = 0; i < num_trans; ++i){
-					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &uctranslations[i][0]));
-				}
-		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.up_center_offsets.size()));
-
-		
+				
 		for (int i = 0; i < num_trans; ++i){
 					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &urtranslations[i][0]));
 				}
 		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.up_right_offsets.size()));
 
-	
-		for (int i = 0; i < num_trans; ++i){
-					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &ltranslations[i][0]));
-				}
-		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.left_offsets.size()));
-		
-		for (int i = 0; i < num_trans; ++i){
-					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &rtranslations[i][0]));
-				}
-		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.right_offsets.size()));
 
 		for (int i = 0; i < num_trans; ++i){
 					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &dltranslations[i][0]));
 				}
 		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.down_left_offsets.size()));
 		 
-
-		for (int i = 0; i < num_trans; ++i){
-					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &dctranslations[i][0]));
-				}
-		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.down_center_offsets.size()));
-
 		
 		for (int i = 0; i < num_trans; ++i){
 					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &drtranslations[i][0]));

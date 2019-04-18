@@ -9,7 +9,7 @@
 
 using namespace std;
 
-int chunkSize = 30;
+int chunkSize = 20;
 
 class Terrain {
 public:
@@ -186,6 +186,7 @@ int p[512] = { 151,160,137,91,90,15,
                         up_left_grid[x][z] =  octaves(x_start+x, 0.0, z_start+z, 3, 0.5) - 10;
                         int clampHeight = glm::clamp(up_left_grid[x][z],-8,8);
                         up_left_offsets.push_back(glm::vec4(x + x_start, clampHeight, z +  z_start, 0));
+                         up_left_offsets.push_back(glm::vec4(x + x_start, clampHeight-1, z +  z_start, 0));
                     }
                 }
                 break;
@@ -195,6 +196,7 @@ int p[512] = { 151,160,137,91,90,15,
                         up_center_grid[x][z] =  octaves(x_start+x, 0.0, z_start+z, 3, 0.5) - 10;
                         int clampHeight = glm::clamp(up_center_grid[x][z],-8,8);
                         up_center_offsets.push_back(glm::vec4(x + x_start, clampHeight, z +  z_start, 0));
+                         up_center_offsets.push_back(glm::vec4(x + x_start, clampHeight-1, z +  z_start, 0));
                     }
                 }
                 break;
@@ -204,6 +206,7 @@ int p[512] = { 151,160,137,91,90,15,
                         up_right_grid[x][z] =  octaves(x_start+x, 0.0, z_start+z, 3, 0.5) - 10;
                         int clampHeight = glm::clamp(up_right_grid[x][z],-8,8);
                         up_right_offsets.push_back(glm::vec4(x + x_start, clampHeight, z +  z_start, 0));
+                         up_right_offsets.push_back(glm::vec4(x + x_start, clampHeight-1, z +  z_start, 0));
                     }
                 }
                 break;
@@ -213,6 +216,7 @@ int p[512] = { 151,160,137,91,90,15,
                         left_grid[x][z] =  octaves(x_start+x, 0.0, z_start+z, 3, 0.5) - 10;
                         int clampHeight = glm::clamp(left_grid[x][z],-8,8);
                         left_offsets.push_back(glm::vec4(x + x_start, clampHeight, z +  z_start, 0));
+                        left_offsets.push_back(glm::vec4(x + x_start, clampHeight-1, z +  z_start, 0));
                     }
                 }
                 break;
@@ -222,6 +226,7 @@ int p[512] = { 151,160,137,91,90,15,
                         center_grid[x][z] =  octaves(x_start+x, 0.0, z_start+z, 3, 0.5) - 10;
                         int clampHeight = glm::clamp(center_grid[x][z],-8,8);
                         center_offsets.push_back(glm::vec4(x + x_start, clampHeight, z +  z_start, 0));
+                        center_offsets.push_back(glm::vec4(x + x_start, clampHeight-1, z +  z_start, 0));
                     }
                 }
                 break;
@@ -231,6 +236,7 @@ int p[512] = { 151,160,137,91,90,15,
                         right_grid[x][z] =  octaves(x_start+x, 0.0, z_start+z, 3, 0.5) - 10;
                         int clampHeight = glm::clamp(right_grid[x][z],-8,8);
                         right_offsets.push_back(glm::vec4(x + x_start, clampHeight, z +  z_start, 0));
+                         right_offsets.push_back(glm::vec4(x + x_start, clampHeight-1, z +  z_start, 0));
                     }
                 }
                 break;
@@ -240,6 +246,7 @@ int p[512] = { 151,160,137,91,90,15,
                         down_left_grid[x][z] =  octaves(x_start+x, 0.0, z_start+z, 3, 0.5) - 10;
                         int clampHeight = glm::clamp(down_left_grid[x][z],-8,8);
                         down_left_offsets.push_back(glm::vec4(x + x_start, clampHeight, z +  z_start, 0));
+                        down_left_offsets.push_back(glm::vec4(x + x_start, clampHeight-1, z +  z_start, 0));
                     }
                 }
                 break;
@@ -249,6 +256,7 @@ int p[512] = { 151,160,137,91,90,15,
                         down_center_grid[x][z] =  octaves(x_start+x, 0.0, z_start+z, 3, 0.5) - 10;
                         int clampHeight = glm::clamp(down_center_grid[x][z],-8,8);
                         down_center_offsets.push_back(glm::vec4(x + x_start, clampHeight, z +  z_start, 0));
+                        down_center_offsets.push_back(glm::vec4(x + x_start, clampHeight-1, z +  z_start, 0));
                     }
                 }
                 break;
@@ -258,6 +266,7 @@ int p[512] = { 151,160,137,91,90,15,
                         down_right_grid[x][z] =  octaves(x_start+x, 0.0, z_start+z, 3, 0.5) - 10;
                         int clampHeight = glm::clamp(down_right_grid[x][z],-8,8);
                         down_right_offsets.push_back(glm::vec4(x + x_start, clampHeight, z +  z_start, 0));
+                         down_right_offsets.push_back(glm::vec4(x + x_start, clampHeight-1, z +  z_start, 0));
                     }
                 }
                 break;
@@ -274,7 +283,7 @@ int p[512] = { 151,160,137,91,90,15,
             for(int z = -1; z <= 1; ++z){
                 int height = getHeightAt(new_eye.x + x*0.5 ,new_eye.z + z*0.5,eye);
                
-                if( height > target_y){
+                if( height > target_y+ 0.001){
                     
                     return true;
                 }
@@ -285,6 +294,8 @@ int p[512] = { 151,160,137,91,90,15,
     }
 
     int getMaxHeight(glm::vec3 eye){
+        
+
         int maxHeight = -10;
          for (int x = -1; x <= 1; ++x){
             for(int z = -1; z <= 1; ++z){
