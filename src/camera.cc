@@ -35,7 +35,13 @@ void Camera::w_move_forward() {
 
 	eye_ = eye_ + (zoom_speed * move_dir);
 	center_ = eye_ + (camera_distance_ * look_);
+}
+glm::vec3 Camera::w_can_move() {
+	glm::vec3 move_dir = look_;
+	move_dir.y = 0.0;
+	move_dir = glm::normalize(move_dir);
 
+	return eye_ + (zoom_speed * move_dir);
 }
 
 void Camera::s_move_backward() {
@@ -47,6 +53,14 @@ void Camera::s_move_backward() {
 	center_ = eye_ + (camera_distance_ * look_);
 }
 
+glm::vec3 Camera::s_can_move() {
+	glm::vec3 move_dir = look_;
+	move_dir.y = 0.0;
+	move_dir = glm::normalize(move_dir);
+
+	return eye_ - (zoom_speed * move_dir);
+}
+
 void Camera::a_strafe_left() {
 	glm::vec3 move_dir = tangent_;
 	move_dir.y = 0.0;
@@ -56,6 +70,14 @@ void Camera::a_strafe_left() {
 	center_ = eye_ + (camera_distance_ * look_);
 }
 
+glm::vec3 Camera::a_can_move() {
+	glm::vec3 move_dir = tangent_;
+	move_dir.y = 0.0;
+	move_dir = glm::normalize(move_dir);
+
+	return eye_ - (pan_speed * move_dir);
+}
+
 void Camera::d_strafe_right() {
 	glm::vec3 move_dir = tangent_;
 	move_dir.y = 0.0;
@@ -63,6 +85,13 @@ void Camera::d_strafe_right() {
 
 	eye_ = eye_ + (pan_speed * move_dir);
 	center_ = eye_ + (camera_distance_ * look_);
+}
+glm::vec3 Camera::d_can_move() {
+	glm::vec3 move_dir = tangent_;
+	move_dir.y = 0.0;
+	move_dir = glm::normalize(move_dir);
+
+	return eye_ + (pan_speed * move_dir);
 }
 
 void Camera::up_pan() {

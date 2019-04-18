@@ -107,7 +107,7 @@ ErrorCallback(int error, const char* description)
 	std::cerr << "GLFW Error: " << description << "\n";
 }
 
-
+Terrain terrain;
 Camera g_camera;
 bool g_save_geo = false;
 bool wireframe = true;
@@ -168,30 +168,36 @@ KeyCallback(GLFWwindow* window,
 	} else if (key == GLFW_KEY_W && action != GLFW_RELEASE) {
 		// FIXME: 
 		glm::vec4 oldPos = g_camera.get_eye();
-		g_camera.w_move_forward();
-		if(!change_chunk)
-			change_chunk = border(oldPos,g_camera.get_eye());
+		if(!terrain.collision(glm::vec3(oldPos),g_camera.w_can_move())) {
+			g_camera.w_move_forward();
+			if(!change_chunk)
+				change_chunk = border(oldPos,g_camera.get_eye());
+		}
 
 
 	} else if (key == GLFW_KEY_S && mods != GLFW_MOD_CONTROL && action != GLFW_RELEASE) {
 		glm::vec4 oldPos = g_camera.get_eye();
-		g_camera.s_move_backward();
-		if(!change_chunk)
-			change_chunk = border(oldPos,g_camera.get_eye());
-
+		if(!terrain.collision(glm::vec3(oldPos),g_camera.s_can_move())) {
+			g_camera.s_move_backward();
+			if(!change_chunk)
+				change_chunk = border(oldPos,g_camera.get_eye());
+		}
 
 	} else if (key == GLFW_KEY_A && action != GLFW_RELEASE) {
 		glm::vec4 oldPos = g_camera.get_eye();
-		g_camera.a_strafe_left();
-		if(!change_chunk)
-			change_chunk = border(oldPos,g_camera.get_eye());
+		if(!terrain.collision(glm::vec3(oldPos),g_camera.a_can_move())) {
+			g_camera.a_strafe_left();
+			if(!change_chunk)
+				change_chunk = border(oldPos,g_camera.get_eye());
+		}
 
 	} else if (key == GLFW_KEY_D && action != GLFW_RELEASE) {
 		glm::vec4 oldPos = g_camera.get_eye();
-		g_camera.d_strafe_right();
-		if(!change_chunk)
-			change_chunk = border(oldPos,g_camera.get_eye());
-
+		if(!terrain.collision(glm::vec3(oldPos),g_camera.d_can_move())) {
+			g_camera.d_strafe_right();
+			if(!change_chunk)
+				change_chunk = border(oldPos,g_camera.get_eye());
+		}
 
 	} else if (key == GLFW_KEY_LEFT && action != GLFW_RELEASE) {
 		// FIXME: Left Right Up and Down
@@ -311,7 +317,7 @@ int main(int argc, char* argv[])
 
 	CreateCube(obj_vertices, obj_faces);
 
-	Terrain terrain;
+
 	// std::vector<glm::vec4> up_left_offsets;
 	// std::vector<glm::vec4> up_center_offsets;
 	// std::vector<glm::vec4> up_right_offsets;

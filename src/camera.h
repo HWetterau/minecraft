@@ -12,9 +12,13 @@ public:
 	glm::mat4 get_view_matrix() const;
 	// FIXME: add functions to manipulate camera objects.
 	void w_move_forward();
+	glm::vec3 w_can_move();
 	void s_move_backward();
+	glm::vec3 s_can_move();
 	void a_strafe_left();
+	glm::vec3 a_can_move();
 	void d_strafe_right();
+	glm::vec3 d_can_move();
 	void up_pan();
 	void down_pan();
 	void left_drag(double delta_x, double delta_y);
