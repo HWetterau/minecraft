@@ -23,6 +23,11 @@ glm::vec4 Camera::get_eye() const
 	//return glm::mat4(1.0);
 }
 
+void Camera::change_eye(int height) {
+	eye_.y = height + 2.75;
+	center_ = eye_ + (camera_distance_ * look_);
+}
+
 void Camera::w_move_forward() {
 	glm::vec3 move_dir = look_;
 	move_dir.y = 0.0;
@@ -109,18 +114,24 @@ void Camera::left_drag(double delta_x, double delta_y) {
 
 void Camera::jump() {
 	if (!jumping) {
-		velocity = 0.5f;
+		velocity = 0.75f;
 		jumping = true;
 
 	}
 }
 
-void Camera::update_height() {
-	if (velocity < -0.4) {
-		jumping = false;
-	}
-	eye_.y += velocity;
-	velocity += gravity;
-	center_ = eye_ + (camera_distance_ * look_);
+void Camera::update_height(int height) {
+	if(eye_.y - 2.75 >= height && gravity_on){
+		eye_.y += velocity;
+		if(eye_.y <= height + 2.75) {
+			eye_.y = height + 2.75;
+			//stop jumping
+			jumping = false;
+			velocity = 0;
+		} else {
+			velocity += gravity;
+		}
+		center_ = eye_ + (camera_distance_ * look_);
+	} 
 	
 }

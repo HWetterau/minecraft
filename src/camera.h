@@ -22,7 +22,8 @@ public:
 	void toggle_gravity() { gravity_on = !gravity_on; };
 	void jump();
 	bool is_jumping() { return jumping; };
-	void update_height();
+	void update_height(int height);
+	void change_eye(int height);
 ;
 
 

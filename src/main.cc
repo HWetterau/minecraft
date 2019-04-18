@@ -113,11 +113,41 @@ bool g_save_geo = false;
 bool wireframe = true;
 bool polygon_mode = true;
 bool change_chunk = false;
+bool w_down = false;
+bool a_down = false;
+bool s_down = false;
+bool d_down = false;
 
 
 bool border(glm::vec4 oldPos, glm::vec4 newPos) {
 	return !( floor(oldPos.x/chunkSize) == floor(newPos.x/chunkSize) &&
 			  floor(oldPos.z/chunkSize) == floor(newPos.z/chunkSize));
+}
+
+int get_heights(glm::vec4 world_pos, Terrain& t) {
+	vector<int> surrounding;
+	// int target_x = (int)floor(world_pos.x);
+	// int target_z = (int)floor(world_pos.z);
+	// for(glm::vec4 offset : t.center_offsets()){
+	// 	if((offset.x <= target_x + 1 && offset.x >= target_x - 1) &&(offset.z <= target_z + 1 && offset.z >= target_z - 1)){
+	int maxX = (int)floor(world_pos.x + 0.5);
+	int minX = (int)floor(world_pos.x - 0.5);
+	int maxZ = (int)floor(world_pos.z + 0.5);
+	int minZ = (int)floor(world_pos.z - 0.5);
+	// 	}
+	// }
+	int max_height = -10;
+	for(int x = minX; x <= maxX; x ++){
+		for(int z = minZ; z <= maxZ; z ++){
+			int height = t.octaves(x, 0.0, z, 3, 0.5) - 10;
+			//surrounding.push_back(height);
+			if(height > max_height){
+				max_height= height;
+			}
+		}
+	}
+	
+	return max_height;
 }
 
 void
@@ -140,25 +170,28 @@ KeyCallback(GLFWwindow* window,
 		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.w_move_forward();
 		if(!change_chunk)
-		change_chunk = border(oldPos,g_camera.get_eye());
+			change_chunk = border(oldPos,g_camera.get_eye());
+
 
 	} else if (key == GLFW_KEY_S && mods != GLFW_MOD_CONTROL && action != GLFW_RELEASE) {
 		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.s_move_backward();
 		if(!change_chunk)
-		change_chunk = border(oldPos,g_camera.get_eye());
+			change_chunk = border(oldPos,g_camera.get_eye());
+
 
 	} else if (key == GLFW_KEY_A && action != GLFW_RELEASE) {
 		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.a_strafe_left();
 		if(!change_chunk)
-		change_chunk = border(oldPos,g_camera.get_eye());
+			change_chunk = border(oldPos,g_camera.get_eye());
 
 	} else if (key == GLFW_KEY_D && action != GLFW_RELEASE) {
 		glm::vec4 oldPos = g_camera.get_eye();
 		g_camera.d_strafe_right();
 		if(!change_chunk)
-		change_chunk = border(oldPos,g_camera.get_eye());
+			change_chunk = border(oldPos,g_camera.get_eye());
+
 
 	} else if (key == GLFW_KEY_LEFT && action != GLFW_RELEASE) {
 		// FIXME: Left Right Up and Down
@@ -184,6 +217,15 @@ KeyCallback(GLFWwindow* window,
 	} else if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
 		cout << "jump!" << endl;
 		g_camera.jump();
+		if(w_down){
+			key = GLFW_KEY_W;
+			action = GLFW_PRESS;
+		}
+		// 	glm::vec4 oldPos = g_camera.get_eye();
+		// 	g_camera.w_move_forward();
+		// 	if(!change_chunk)
+		// 		change_chunk = border(oldPos,g_camera.get_eye());
+		// }
 	}
 
 }
@@ -282,6 +324,8 @@ int main(int argc, char* argv[])
 	// glm::vec4 eye = g_camera.get_eye();
 
 	terrain.generate(g_camera.get_eye());
+	int height = get_heights(g_camera.get_eye(), terrain);
+	g_camera.change_eye(height);
 
 	//glm::vec4 chunks[9][chunkSize*chunkSize];
 
@@ -560,9 +604,10 @@ std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), 
 		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.down_right_offsets.size()));
 
 
-		if (g_camera.is_jumping()) {
-			g_camera.update_height();
-		}
+		// if (g_camera.is_jumping()) {
+		// 	g_camera.update_height(get_heights(g_camera.get_eye(),terrain));
+		// }
+		g_camera.update_height(get_heights(g_camera.get_eye(),terrain));
 		// Draw our triangles.
 		//CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0));
 
