@@ -124,31 +124,31 @@ bool border(glm::vec4 oldPos, glm::vec4 newPos) {
 			  floor(oldPos.z/chunkSize) == floor(newPos.z/chunkSize));
 }
 
-int get_heights(glm::vec4 world_pos, Terrain& t) {
-	vector<int> surrounding;
-	// int target_x = (int)floor(world_pos.x);
-	// int target_z = (int)floor(world_pos.z);
-	// for(glm::vec4 offset : t.center_offsets()){
-	// 	if((offset.x <= target_x + 1 && offset.x >= target_x - 1) &&(offset.z <= target_z + 1 && offset.z >= target_z - 1)){
-	int maxX = (int)floor(world_pos.x + 0.5);
-	int minX = (int)floor(world_pos.x - 0.5);
-	int maxZ = (int)floor(world_pos.z + 0.5);
-	int minZ = (int)floor(world_pos.z - 0.5);
-	// 	}
-	// }
-	int max_height = -10;
-	for(int x = minX; x <= maxX; x ++){
-		for(int z = minZ; z <= maxZ; z ++){
-			int height = t.octaves(x, 0.0, z, 3, 0.5) - 10;
-			//surrounding.push_back(height);
-			if(height > max_height){
-				max_height= height;
-			}
-		}
-	}
+// int get_heights(glm::vec4 world_pos, Terrain& t) {
+// 	vector<int> surrounding;
+// 	// int target_x = (int)floor(world_pos.x);
+// 	// int target_z = (int)floor(world_pos.z);
+// 	// for(glm::vec4 offset : t.center_offsets()){
+// 	// 	if((offset.x <= target_x + 1 && offset.x >= target_x - 1) &&(offset.z <= target_z + 1 && offset.z >= target_z - 1)){
+// 	int maxX = (int)floor(world_pos.x + 0.5);
+// 	int minX = (int)floor(world_pos.x - 0.5);
+// 	int maxZ = (int)floor(world_pos.z + 0.5);
+// 	int minZ = (int)floor(world_pos.z - 0.5);
+// 	// 	}
+// 	// }
+// 	int max_height = -10;
+// 	for(int x = minX; x <= maxX; x ++){
+// 		for(int z = minZ; z <= maxZ; z ++){
+// 			int height = t.octaves(x, 0.0, z, 3, 0.5) - 10;
+// 			//surrounding.push_back(height);
+// 			if(height > max_height){
+// 				max_height= height;
+// 			}
+// 		}
+// 	}
 	
-	return max_height;
-}
+// 	return max_height;
+// }
 
 void
 KeyCallback(GLFWwindow* window,
@@ -167,37 +167,37 @@ KeyCallback(GLFWwindow* window,
 
 	} else if (key == GLFW_KEY_W && action != GLFW_RELEASE) {
 		// FIXME: 
-		glm::vec4 oldPos = g_camera.get_eye();
-		if(!terrain.collision(glm::vec3(oldPos),g_camera.w_can_move())) {
-			g_camera.w_move_forward();
-			if(!change_chunk)
-				change_chunk = border(oldPos,g_camera.get_eye());
-		}
+		// glm::vec4 oldPos = g_camera.get_eye();
+		// if(!terrain.collision(glm::vec3(oldPos),g_camera.w_can_move())) {
+		// 	g_camera.w_move_forward();
+		// 	if(!change_chunk)
+		// 		change_chunk = border(oldPos,g_camera.get_eye());
+		// }
 
 
 	} else if (key == GLFW_KEY_S && mods != GLFW_MOD_CONTROL && action != GLFW_RELEASE) {
-		glm::vec4 oldPos = g_camera.get_eye();
-		if(!terrain.collision(glm::vec3(oldPos),g_camera.s_can_move())) {
-			g_camera.s_move_backward();
-			if(!change_chunk)
-				change_chunk = border(oldPos,g_camera.get_eye());
-		}
+		// glm::vec4 oldPos = g_camera.get_eye();
+		// if(!terrain.collision(glm::vec3(oldPos),g_camera.s_can_move())) {
+		// 	g_camera.s_move_backward();
+		// 	if(!change_chunk)
+		// 		change_chunk = border(oldPos,g_camera.get_eye());
+		// }
 
 	} else if (key == GLFW_KEY_A && action != GLFW_RELEASE) {
-		glm::vec4 oldPos = g_camera.get_eye();
-		if(!terrain.collision(glm::vec3(oldPos),g_camera.a_can_move())) {
-			g_camera.a_strafe_left();
-			if(!change_chunk)
-				change_chunk = border(oldPos,g_camera.get_eye());
-		}
+		// glm::vec4 oldPos = g_camera.get_eye();
+		// if(!terrain.collision(glm::vec3(oldPos),g_camera.a_can_move())) {
+		// 	g_camera.a_strafe_left();
+		// 	if(!change_chunk)
+		// 		change_chunk = border(oldPos,g_camera.get_eye());
+		// }
 
 	} else if (key == GLFW_KEY_D && action != GLFW_RELEASE) {
-		glm::vec4 oldPos = g_camera.get_eye();
-		if(!terrain.collision(glm::vec3(oldPos),g_camera.d_can_move())) {
-			g_camera.d_strafe_right();
-			if(!change_chunk)
-				change_chunk = border(oldPos,g_camera.get_eye());
-		}
+		// glm::vec4 oldPos = g_camera.get_eye();
+		// if(!terrain.collision(glm::vec3(oldPos),g_camera.d_can_move())) {
+		// 	g_camera.d_strafe_right();
+		// 	if(!change_chunk)
+		// 		change_chunk = border(oldPos,g_camera.get_eye());
+		// }
 
 	} else if (key == GLFW_KEY_LEFT && action != GLFW_RELEASE) {
 		// FIXME: Left Right Up and Down
@@ -221,12 +221,9 @@ KeyCallback(GLFWwindow* window,
 		g_camera.toggle_gravity();
 
 	} else if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
-		cout << "jump!" << endl;
+	
 		g_camera.jump();
-		if(w_down){
-			key = GLFW_KEY_W;
-			action = GLFW_PRESS;
-		}
+		
 		// 	glm::vec4 oldPos = g_camera.get_eye();
 		// 	g_camera.w_move_forward();
 		// 	if(!change_chunk)
@@ -309,6 +306,9 @@ int main(int argc, char* argv[])
 	std::cout << "Renderer: " << renderer << "\n";
 	std::cout << "OpenGL version supported:" << version << "\n";
 
+	
+
+
 
 
 	//cubes
@@ -318,34 +318,9 @@ int main(int argc, char* argv[])
 	CreateCube(obj_vertices, obj_faces);
 
 
-	// std::vector<glm::vec4> up_left_offsets;
-	// std::vector<glm::vec4> up_center_offsets;
-	// std::vector<glm::vec4> up_right_offsets;
-	// std::vector<glm::vec4> left_offsets;
-	// std::vector<glm::vec4> center_offsets;
-	// std::vector<glm::vec4> right_offsets;
-	// std::vector<glm::vec4> down_left_offsets;
-	// std::vector<glm::vec4> down_center_offsets;
-	// std::vector<glm::vec4> down_right_offsets;
-	// glm::vec4 eye = g_camera.get_eye();
-
 	terrain.generate(g_camera.get_eye());
-	int height = get_heights(g_camera.get_eye(), terrain);
+	int height = terrain.getMaxHeight(glm::vec3(g_camera.get_eye()));
 	g_camera.change_eye(height);
-
-	//glm::vec4 chunks[9][chunkSize*chunkSize];
-
-
-
-	// glm::vec4 min_bounds = glm::vec4(std::numeric_limits<float>::max());
-	// glm::vec4 max_bounds = glm::vec4(-std::numeric_limits<float>::max());
-	// for (const auto& vert : obj_vertices) {
-	// 	min_bounds = glm::min(vert, min_bounds);
-	// 	max_bounds = glm::max(vert, max_bounds);
-	// }
-	// std::cout << "min_bounds = " << glm::to_string(min_bounds) << "\n";
-	// std::cout << "max_bounds = " << glm::to_string(max_bounds) << "\n";
-
 
 	// Setup our VAO array.
 	CHECK_GL_ERROR(glGenVertexArrays(kNumVaos, &g_array_objects[0]));
@@ -468,26 +443,25 @@ for (int i = 0; i < num_trans; ++i){
 		glGetUniformLocation(default_program_id, c));
 }
 
-glm::vec4 ultranslations[num_trans];
-glm::vec4 uctranslations[num_trans];
-glm::vec4 urtranslations[num_trans];
-glm::vec4 ltranslations[num_trans];
-glm::vec4 ctranslations[num_trans];
-glm::vec4 rtranslations[num_trans];
-glm::vec4 dltranslations[num_trans];
-glm::vec4 dctranslations[num_trans];
-glm::vec4 drtranslations[num_trans];
-std::copy(terrain.up_left_offsets.begin(), terrain.up_left_offsets.end(), ultranslations);
-std::copy(terrain.up_center_offsets.begin(), terrain.up_center_offsets.end(), uctranslations);
-std::copy(terrain.up_right_offsets.begin(), terrain.up_right_offsets.end(), urtranslations);
-std::copy(terrain.left_offsets.begin(), terrain.left_offsets.end(), ltranslations);
-std::copy(terrain.center_offsets.begin(), terrain.center_offsets.end(), ctranslations);
-std::copy(terrain.right_offsets.begin(), terrain.right_offsets.end(), rtranslations);
-std::copy(terrain.down_left_offsets.begin(), terrain.down_left_offsets.end(), dltranslations);
-std::copy(terrain.down_center_offsets.begin(), terrain.down_center_offsets.end(), dctranslations);
-std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), drtranslations);
-//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
- //	auto start = chrono::steady_clock::now();
+	glm::vec4 ultranslations[num_trans];
+	glm::vec4 uctranslations[num_trans];
+	glm::vec4 urtranslations[num_trans];
+	glm::vec4 ltranslations[num_trans];
+	glm::vec4 ctranslations[num_trans];
+	glm::vec4 rtranslations[num_trans];
+	glm::vec4 dltranslations[num_trans];
+	glm::vec4 dctranslations[num_trans];
+	glm::vec4 drtranslations[num_trans];
+	std::copy(terrain.up_left_offsets.begin(), terrain.up_left_offsets.end(), ultranslations);
+	std::copy(terrain.up_center_offsets.begin(), terrain.up_center_offsets.end(), uctranslations);
+	std::copy(terrain.up_right_offsets.begin(), terrain.up_right_offsets.end(), urtranslations);
+	std::copy(terrain.left_offsets.begin(), terrain.left_offsets.end(), ltranslations);
+	std::copy(terrain.center_offsets.begin(), terrain.center_offsets.end(), ctranslations);
+	std::copy(terrain.right_offsets.begin(), terrain.right_offsets.end(), rtranslations);
+	std::copy(terrain.down_left_offsets.begin(), terrain.down_left_offsets.end(), dltranslations);
+	std::copy(terrain.down_center_offsets.begin(), terrain.down_center_offsets.end(), dctranslations);
+	std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), drtranslations);
+
 	glm::vec4 light_position = glm::vec4(-10.0f, 20.0f, 10.0f, 1.0f);
 	float aspect = 0.0f;
 	float theta = 0.0f;
@@ -499,6 +473,45 @@ std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), 
 		glEnable(GL_DEPTH_TEST);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDepthFunc(GL_LESS);
+
+		//glfwSetInputMode	(window,GLFW_STICKY_KEYS,GL_TRUE);
+
+	//poll motion keys
+
+	if (glfwGetKey(window, GLFW_KEY_W) != GLFW_RELEASE) {
+		glm::vec4 oldPos = g_camera.get_eye();
+		if(!terrain.collision(glm::vec3(oldPos),g_camera.w_can_move())) {
+			g_camera.w_move_forward();
+			if(!change_chunk)
+				change_chunk = border(oldPos,g_camera.get_eye());
+		}
+	} else if (glfwGetKey(window, GLFW_KEY_S) != GLFW_RELEASE) {
+		glm::vec4 oldPos = g_camera.get_eye();
+		if(!terrain.collision(glm::vec3(oldPos),g_camera.s_can_move())) {
+			g_camera.s_move_backward();
+			if(!change_chunk)
+				change_chunk = border(oldPos,g_camera.get_eye());
+		}
+	}
+
+
+	if (glfwGetKey(window, GLFW_KEY_A) != GLFW_RELEASE)
+	{
+		glm::vec4 oldPos = g_camera.get_eye();
+		if(!terrain.collision(glm::vec3(oldPos),g_camera.a_can_move())) {
+			g_camera.a_strafe_left();
+			if(!change_chunk)
+				change_chunk = border(oldPos,g_camera.get_eye());
+		}
+	} else if (glfwGetKey(window, GLFW_KEY_D) != GLFW_RELEASE) {
+		glm::vec4 oldPos = g_camera.get_eye();
+		if(!terrain.collision(glm::vec3(oldPos),g_camera.d_can_move())) {
+			g_camera.d_strafe_right();
+			if(!change_chunk)
+				change_chunk = border(oldPos,g_camera.get_eye());
+		}
+	}
+	
 
 		// Switch to the Geometry VAO.
 		CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kGeometryVao]));
@@ -538,6 +551,7 @@ std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), 
 		aspect = static_cast<float>(window_width) / window_height;
 		glm::mat4 projection_matrix =
 			glm::perspective(glm::radians(45.0f), aspect, 0.2f, 100.0f);
+
 
 		// Compute the view matrix
 		// FIXME: change eye and center through mouse/keyboard events.
@@ -613,7 +627,7 @@ std::copy(terrain.down_right_offsets.begin(), terrain.down_right_offsets.end(), 
 		// if (g_camera.is_jumping()) {
 		// 	g_camera.update_height(get_heights(g_camera.get_eye(),terrain));
 		// }
-		g_camera.update_height(get_heights(g_camera.get_eye(),terrain));
+		g_camera.update_height(terrain.getMaxHeight(glm::vec3(g_camera.get_eye())));
 		// Draw our triangles.
 		//CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0));
 

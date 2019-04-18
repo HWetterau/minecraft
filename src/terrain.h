@@ -269,28 +269,32 @@ int p[512] = { 151,160,137,91,90,15,
 
     bool collision(glm::vec3 eye, glm::vec3 new_eye ){
         double target_y = eye.y - 2.75; //current ground height
-        cout<<"x "<<new_eye.x<<endl;
-      
-       // int maxX =  floor((new_eye.x + 0.5)/chunkSize) * chunkSize;
-        // int maxX =  floor(new_eye.x + 0.5);
-        // // int maxZ =  floor((new_eye.z + 0.5)/chunkSize) * chunkSize;
-        // // int minX =  floor((new_eye.x - 0.5)/chunkSize) * chunkSize;
-        // // int minZ =  floor((new_eye.z - 0.5)/chunkSize) * chunkSize;
-        //  int maxX =  new_eye.x + 0.5;
-        //   cout<<"minx "<<minX<<endl;
-        //   cout<<"maxx "<<minX<<endl;
+       
         for (int x = -1; x <= 1; ++x){
             for(int z = -1; z <= 1; ++z){
                 int height = getHeightAt(new_eye.x + x*0.5 ,new_eye.z + z*0.5,eye);
-                cout<<"height at "<<x<<" "<<z<<" is "<<height<<" target: "<<target_y<<endl;
+               
                 if( height > target_y){
-                    cout<<"in if "<<endl;
+                    
                     return true;
                 }
             }
         }
         return false;
         
+    }
+
+    int getMaxHeight(glm::vec3 eye){
+        int maxHeight = -10;
+         for (int x = -1; x <= 1; ++x){
+            for(int z = -1; z <= 1; ++z){
+                int height = getHeightAt(eye.x + x*0.5 ,eye.z + z*0.5,eye);
+                if( height > maxHeight){
+                    maxHeight = height;
+                }
+            }
+        }
+        return maxHeight;
     }
 
     int getHeightAt(double doubx, double doubz, glm::vec3 eye){
