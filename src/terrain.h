@@ -277,13 +277,29 @@ int p[512] = { 151,160,137,91,90,15,
     }
 
     bool collision(glm::vec3 eye, glm::vec3 new_eye ){
+        glm::vec3 move_dir = new_eye - eye;
+        int minx = 0;
+        int maxx = 0;
+        int minz = 0;
+        int maxz = 0;
+        if (move_dir.x > 0){
+            maxx = 1;
+        } else if (move_dir.x < 0){
+            minx = -1;
+        }
+        if (move_dir.z > 0){
+            maxz = 1;
+        } else if (move_dir.z < 0){
+            minz = -1;
+        }
+
         double target_y = eye.y - 2.75; //current ground height
        
-        for (int x = -1; x <= 1; ++x){
-            for(int z = -1; z <= 1; ++z){
-                int height = getHeightAt(new_eye.x + x*0.5 ,new_eye.z + z*0.5,eye);
+        for (int x = minx; x <= maxx; ++x){
+            for (int z = minz; z <= maxz; ++z){
+                int height = getHeightAt(new_eye.x + x*0.25 ,new_eye.z + z*0.25,eye);
                
-                if( height > target_y+ 0.001){
+                if (height > target_y+ 0.001){
                     
                     return true;
                 }
@@ -294,18 +310,17 @@ int p[512] = { 151,160,137,91,90,15,
     }
 
     int getMaxHeight(glm::vec3 eye){
-        
-
-        int maxHeight = -10;
-         for (int x = -1; x <= 1; ++x){
-            for(int z = -1; z <= 1; ++z){
-                int height = getHeightAt(eye.x + x*0.5 ,eye.z + z*0.5,eye);
-                if( height > maxHeight){
-                    maxHeight = height;
-                }
-            }
-        }
-        return maxHeight;
+        return getHeightAt(eye.x,eye.z,eye);
+        // int maxHeight = -10;
+        //  for (int x = -1; x <= 1; ++x){
+        //     for(int z = -1; z <= 1; ++z){
+        //         int height = getHeightAt(eye.x + x*0.5 ,eye.z + z*0.5,eye);
+        //         if( height > maxHeight){
+        //             maxHeight = height;
+        //         }
+        //     }
+        // }
+        // return maxHeight;
     }
 
     int getHeightAt(double doubx, double doubz, glm::vec3 eye){
@@ -330,8 +345,9 @@ int p[512] = { 151,160,137,91,90,15,
                 return up_right_grid[x-newChunkX][z-newChunkZ];
             }
         } else if  (centerChunkZ == newChunkZ) {
+
             if(newChunkX < centerChunkX){
-                //left
+                //left 
                 return left_grid[x-newChunkX][z-newChunkZ];
 
             } else if (newChunkX == centerChunkX){

@@ -81,7 +81,7 @@ const char* moon_frag_shader =
 
 
 void CreateCube (std::vector<glm::vec4>& obj_vertices, std::vector<glm::uvec3>& obj_faces) {
-	
+
 	double minX = 0;
 	double minY = minX;
 	double minZ = minX;
@@ -99,7 +99,7 @@ void CreateCube (std::vector<glm::vec4>& obj_vertices, std::vector<glm::uvec3>& 
 	obj_vertices.push_back(glm::vec4(maxX,minY,minZ,1.0f));
 	obj_vertices.push_back(glm::vec4(minX,maxY, minZ,1.0f));
 	obj_vertices.push_back(glm::vec4(maxX,maxY,minZ,1.0f));
-	
+
 	obj_faces.push_back(glm::uvec3(0,1,2));
 	obj_faces.push_back(glm::uvec3(1,3,2));
 	obj_faces.push_back(glm::uvec3(2,3,7));
@@ -213,7 +213,7 @@ KeyCallback(GLFWwindow* window,
 		g_save_geo = true;
 
 	} else if (key == GLFW_KEY_W && action != GLFW_RELEASE) {
-		// FIXME: 
+		// FIXME:
 		// glm::vec4 oldPos = g_camera.get_eye();
 		// if(!terrain.collision(glm::vec3(oldPos),g_camera.w_can_move())) {
 		// 	g_camera.w_move_forward();
@@ -268,9 +268,9 @@ KeyCallback(GLFWwindow* window,
 		g_camera.toggle_gravity();
 
 	} else if (key == GLFW_KEY_SPACE && action == GLFW_RELEASE) {
-	
+
 		g_camera.jump();
-		
+
 		// 	glm::vec4 oldPos = g_camera.get_eye();
 		// 	g_camera.w_move_forward();
 		// 	if(!change_chunk)
@@ -294,7 +294,7 @@ float last_x_ = 0.0f, last_y_ = 0.0f, current_x_ = 0.0f, current_y_ = 0.0f;
 
 void
 MousePosCallback(GLFWwindow* window, double mouse_x, double mouse_y)
-{	
+{
 	//supposedly eliminating the jump...
 	if(firstMouse)
     {
@@ -359,11 +359,11 @@ int main(int argc, char* argv[])
 	std::cout << "Renderer: " << renderer << "\n";
 	std::cout << "OpenGL version supported:" << version << "\n";
 
-	
+
 
 	//cubes
 	std::vector<glm::vec4> obj_vertices;
-	std::vector<glm::uvec3> obj_faces;  
+	std::vector<glm::uvec3> obj_faces;
 
 	CreateCube(obj_vertices, obj_faces);
 
@@ -542,7 +542,7 @@ int main(int argc, char* argv[])
 	CHECK_GL_ERROR(floor_vertex_shader_id = glCreateShader(GL_VERTEX_SHADER));
 	CHECK_GL_ERROR(glShaderSource(floor_vertex_shader_id, 1, &floor_vert_shader, nullptr));
 	glCompileShader(floor_vertex_shader_id);
-	CHECK_GL_SHADER_ERROR(floor_vertex_shader_id);			
+	CHECK_GL_SHADER_ERROR(floor_vertex_shader_id);
 
 	// Setup fragment shader for the floor
 	GLuint floor_fragment_shader_id = 0;
@@ -557,6 +557,7 @@ int main(int argc, char* argv[])
 	GLuint floor_program_id = 0;
 	GLint floor_projection_matrix_location = 0;
 	GLint floor_view_matrix_location = 0;
+	GLint floor_offset_location = 0;
 
 	CHECK_GL_ERROR(floor_program_id = glCreateProgram());
 	CHECK_GL_ERROR(glAttachShader(floor_program_id, floor_vertex_shader_id));
@@ -575,12 +576,15 @@ int main(int argc, char* argv[])
 			glGetUniformLocation(floor_program_id, "projection"));
 	CHECK_GL_ERROR(floor_view_matrix_location =
 			glGetUniformLocation(floor_program_id, "view"));
+	CHECK_GL_ERROR(floor_offset_location =
+			glGetUniformLocation(floor_program_id, "offset"));
+
 
 
 	// CHECK_GL_ERROR(camera_position_location =
 	// 		glGetUniformLocation(default_program_id, "camera_position"));
-int p[512] = { 151,160,137,91,90,15,                 
-    131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,   
+int p[512] = { 151,160,137,91,90,15,
+    131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
     190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
     88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
     77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
@@ -592,8 +596,8 @@ int p[512] = { 151,160,137,91,90,15,
     251,34,242,193,238,210,144,12,191,179,162,241, 81,51,145,235,249,14,239,107,
     49,192,214, 31,181,199,106,157,184, 84,204,176,115,121,50,45,127, 4,150,254,
     138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180,
-	151,160,137,91,90,15,                 
-    131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,   
+	151,160,137,91,90,15,
+    131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,8,99,37,240,21,10,23,
     190, 6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,
     88,237,149,56,87,174,20,125,136,171,168, 68,175,74,165,71,134,139,48,27,166,
     77,146,158,231,83,111,229,122,60,211,133,230,220,105,92,41,55,46,245,40,244,
@@ -748,42 +752,79 @@ for (int i = 0; i < num_trans; ++i){
 		glDepthFunc(GL_LESS);
 
 		//glfwSetInputMode	(window,GLFW_STICKY_KEYS,GL_TRUE);
-		
+
 	//poll motion keys
 
+	glm::vec4 oldPos = g_camera.get_eye();
+
 	if (glfwGetKey(window, GLFW_KEY_W) != GLFW_RELEASE) {
-		glm::vec4 oldPos = g_camera.get_eye();
+		// glm::vec4 oldPos = g_camera.get_eye();
 		if(!terrain.collision(glm::vec3(oldPos),g_camera.w_can_move())) {
 			g_camera.w_move_forward();
-			if(!change_chunk)
-				change_chunk = border(oldPos,g_camera.get_eye());
+			// if(!change_chunk)
+			// 	change_chunk = border(oldPos,g_camera.get_eye());
 		}
 	} else if (glfwGetKey(window, GLFW_KEY_S) != GLFW_RELEASE) {
-		glm::vec4 oldPos = g_camera.get_eye();
+		//glm::vec4 oldPos = g_camera.get_eye();
 		if(!terrain.collision(glm::vec3(oldPos),g_camera.s_can_move())) {
 			g_camera.s_move_backward();
-			if(!change_chunk)
-				change_chunk = border(oldPos,g_camera.get_eye());
+			// if(!change_chunk)
+			// 	change_chunk = border(oldPos,g_camera.get_eye());
 		}
 	}
 
 
 	if (glfwGetKey(window, GLFW_KEY_A) != GLFW_RELEASE)
 	{
-		glm::vec4 oldPos = g_camera.get_eye();
+		
 		if(!terrain.collision(glm::vec3(oldPos),g_camera.a_can_move())) {
 			g_camera.a_strafe_left();
-			if(!change_chunk)
-				change_chunk = border(oldPos,g_camera.get_eye());
+			// if(!change_chunk)
+			// 	change_chunk = border(oldPos,g_camera.get_eye());
 		}
 	} else if (glfwGetKey(window, GLFW_KEY_D) != GLFW_RELEASE) {
-		glm::vec4 oldPos = g_camera.get_eye();
+		//glm::vec4 oldPos = g_camera.get_eye();
 		if(!terrain.collision(glm::vec3(oldPos),g_camera.d_can_move())) {
 			g_camera.d_strafe_right();
-			if(!change_chunk)
-				change_chunk = border(oldPos,g_camera.get_eye());
+			// if(!change_chunk)
+			// 	change_chunk = border(oldPos,g_camera.get_eye());
 		}
 	}
+	change_chunk = border(oldPos,g_camera.get_eye());
+	g_camera.update_height(terrain.getMaxHeight(glm::vec3(g_camera.get_eye())));
+
+			// Compute the projection matrix.
+		aspect = static_cast<float>(window_width) / window_height;
+		glm::mat4 projection_matrix =
+			glm::perspective(glm::radians(45.0f), aspect, 0.2f, 100.0f);
+
+
+		// Compute the view matrix
+		// FIXME: change eye and center through mouse/keyboard events.
+		glm::mat4 view_matrix = g_camera.get_view_matrix();
+			//FLOOR
+		glm::vec4 eyetemp = g_camera.get_eye();
+
+		float tempx = floor(eyetemp.x/20)*20 ; 
+		float tempz = floor(eyetemp.z/20)*20;
+		glm::vec4 flooroffset = glm::vec4(tempx,0.0f,tempz,0.0f);
+
+		CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kFloorVao]));
+
+		CHECK_GL_ERROR(glUseProgram(floor_program_id));
+
+		CHECK_GL_ERROR(glUniformMatrix4fv(floor_projection_matrix_location, 1, GL_FALSE,
+					&projection_matrix[0][0]));
+		CHECK_GL_ERROR(glUniformMatrix4fv(floor_view_matrix_location, 1, GL_FALSE,
+					&view_matrix[0][0]));
+		
+		// cout<<"floor offset "<<glm::to_string(flooroffset)<<endl;
+		CHECK_GL_ERROR(glUniform4fv(floor_offset_location, 1, &flooroffset[0]));
+
+		CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, plane_faces.size() * 3, GL_UNSIGNED_INT, 0));
+
+
+
 		// Switch to the Geometry VAO.
 		CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kGeometryVao]));
 
@@ -804,7 +845,7 @@ for (int i = 0; i < num_trans; ++i){
 					obj_faces.data(), GL_STATIC_DRAW));
 
 		if (change_chunk){
-			cout<<"change chunk"<<endl;
+			//cout<<"change chunk"<<endl;
 			terrain.generate(g_camera.get_eye());
 			std::copy(terrain.up_left_offsets.begin(), terrain.up_left_offsets.end(), ultranslations);
 			std::copy(terrain.up_center_offsets.begin(), terrain.up_center_offsets.end(), uctranslations);
@@ -818,20 +859,12 @@ for (int i = 0; i < num_trans; ++i){
 			change_chunk = false;
 		}
 
-		// Compute the projection matrix.
-		aspect = static_cast<float>(window_width) / window_height;
-		glm::mat4 projection_matrix =
-			glm::perspective(glm::radians(45.0f), aspect, 0.2f, 100.0f);
+	
 
-
-		// Compute the view matrix
-		// FIXME: change eye and center through mouse/keyboard events.
-		glm::mat4 view_matrix = g_camera.get_view_matrix();
-		
 
 		// Use our program.
 		CHECK_GL_ERROR(glUseProgram(default_program_id));
-		
+
 		// Pass uniforms in.
 		CHECK_GL_ERROR(glUniformMatrix4fv(projection_matrix_location, 1, GL_FALSE,
 					&projection_matrix[0][0]));
@@ -840,7 +873,7 @@ for (int i = 0; i < num_trans; ++i){
 		CHECK_GL_ERROR(glUniform4fv(light_position_location, 1, &light_position[0]));
 
 		// for (int i = 0; i < permutation.length; ++i) {
-			
+
 		// }
 		CHECK_GL_ERROR(glUniform1iv(permutation_location, 512, &p[0]));
 
@@ -874,9 +907,9 @@ for (int i = 0; i < num_trans; ++i){
 					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &ultranslations[i][0]));
 				}
 		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.up_left_offsets.size()));
-		 
 
-				
+
+
 		for (int i = 0; i < num_trans; ++i){
 					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &urtranslations[i][0]));
 				}
@@ -887,30 +920,19 @@ for (int i = 0; i < num_trans; ++i){
 					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &dltranslations[i][0]));
 				}
 		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.down_left_offsets.size()));
-		 
-		
+
+
 		for (int i = 0; i < num_trans; ++i){
 					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &drtranslations[i][0]));
 				}
 		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.down_right_offsets.size()));
-		
-		//FLOOR
-		CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kFloorVao]));
 
-		CHECK_GL_ERROR(glUseProgram(floor_program_id));
-
-		CHECK_GL_ERROR(glUniformMatrix4fv(floor_projection_matrix_location, 1, GL_FALSE,
-					&projection_matrix[0][0]));
-		CHECK_GL_ERROR(glUniformMatrix4fv(floor_view_matrix_location, 1, GL_FALSE,
-					&view_matrix[0][0]));
 	
-		CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, plane_faces.size() * 3, GL_UNSIGNED_INT, 0));
-
 
 		// if (g_camera.is_jumping()) {
 		// 	g_camera.update_height(get_heights(g_camera.get_eye(),terrain));
 		// }
-		g_camera.update_height(terrain.getMaxHeight(glm::vec3(g_camera.get_eye())));
+		//g_camera.update_height(terrain.getMaxHeight(glm::vec3(g_camera.get_eye())));
 		// Draw our triangles.
 		//CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0));
 

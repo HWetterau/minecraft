@@ -10,7 +10,7 @@ The output was:
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
 
-The C compiler identification is GNU, found in "/u/annyue/Graphics/minecraft/build/CMakeFiles/3.10.2/CompilerIdC/a.out"
+The C compiler identification is GNU, found in "/u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/3.10.2/CompilerIdC/a.out"
 
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /usr/bin/c++ 
@@ -23,10 +23,10 @@ The output was:
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
 
-The CXX compiler identification is GNU, found in "/u/annyue/Graphics/minecraft/build/CMakeFiles/3.10.2/CompilerIdCXX/a.out"
+The CXX compiler identification is GNU, found in "/u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/3.10.2/CompilerIdCXX/a.out"
 
 Determining if the C compiler works passed with the following output:
-Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp
+Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp
 
 Run Build Command:"/usr/bin/make" "cmTC_3da3a/fast"
 /usr/bin/make -f CMakeFiles/cmTC_3da3a.dir/build.make CMakeFiles/cmTC_3da3a.dir/build
@@ -69,7 +69,7 @@ make[1]: Leaving directory '/u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeT
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp]
   ignore line: []
   ignore line: [Run Build Command:"/usr/bin/make" "cmTC_24a2e/fast"]
   ignore line: [/usr/bin/make -f CMakeFiles/cmTC_24a2e.dir/build.make CMakeFiles/cmTC_24a2e.dir/build]
@@ -158,7 +158,7 @@ Parsed C implicit link information from above output:
 
 
 Detecting C [-std=c11] compiler features compiled with the following output:
-Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp
+Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp
 
 Run Build Command:"/usr/bin/make" "cmTC_e8812/fast"
 /usr/bin/make -f CMakeFiles/cmTC_e8812.dir/build.make CMakeFiles/cmTC_e8812.dir/build
@@ -178,7 +178,7 @@ make[1]: Leaving directory '/u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeT
 
 
 Detecting C [-std=c99] compiler features compiled with the following output:
-Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp
+Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp
 
 Run Build Command:"/usr/bin/make" "cmTC_fb345/fast"
 /usr/bin/make -f CMakeFiles/cmTC_fb345.dir/build.make CMakeFiles/cmTC_fb345.dir/build
@@ -198,7 +198,7 @@ make[1]: Leaving directory '/u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeT
 
 
 Detecting C [-std=c90] compiler features compiled with the following output:
-Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp
+Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp
 
 Run Build Command:"/usr/bin/make" "cmTC_c0bfc/fast"
 /usr/bin/make -f CMakeFiles/cmTC_c0bfc.dir/build.make CMakeFiles/cmTC_c0bfc.dir/build
@@ -216,7 +216,7 @@ make[1]: Leaving directory '/u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeT
     Feature record: C_FEATURE:0c_static_assert
     Feature record: C_FEATURE:0c_variadic_macros
 Determining if the CXX compiler works passed with the following output:
-Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp
+Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp
 
 Run Build Command:"/usr/bin/make" "cmTC_785f8/fast"
 /usr/bin/make -f CMakeFiles/cmTC_785f8.dir/build.make CMakeFiles/cmTC_785f8.dir/build
@@ -259,7 +259,7 @@ make[1]: Leaving directory '/u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeT
 
 Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp]
   ignore line: []
   ignore line: [Run Build Command:"/usr/bin/make" "cmTC_73695/fast"]
   ignore line: [/usr/bin/make -f CMakeFiles/cmTC_73695.dir/build.make CMakeFiles/cmTC_73695.dir/build]
@@ -344,7 +344,7 @@ Parsed CXX implicit link information from above output:
 
 
 Detecting CXX [-std=c++1z] compiler features compiled with the following output:
-Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp
+Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp
 
 Run Build Command:"/usr/bin/make" "cmTC_34c69/fast"
 /usr/bin/make -f CMakeFiles/cmTC_34c69.dir/build.make CMakeFiles/cmTC_34c69.dir/build
@@ -417,7 +417,7 @@ make[1]: Leaving directory '/u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeT
 
 
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
-Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp
+Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp
 
 Run Build Command:"/usr/bin/make" "cmTC_9e015/fast"
 /usr/bin/make -f CMakeFiles/cmTC_9e015.dir/build.make CMakeFiles/cmTC_9e015.dir/build
@@ -490,7 +490,7 @@ make[1]: Leaving directory '/u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeT
 
 
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
-Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp
+Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp
 
 Run Build Command:"/usr/bin/make" "cmTC_d1835/fast"
 /usr/bin/make -f CMakeFiles/cmTC_d1835.dir/build.make CMakeFiles/cmTC_d1835.dir/build
@@ -563,7 +563,7 @@ make[1]: Leaving directory '/u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeT
 
 
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
-Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp
+Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp
 
 Run Build Command:"/usr/bin/make" "cmTC_f0adf/fast"
 /usr/bin/make -f CMakeFiles/cmTC_f0adf.dir/build.make CMakeFiles/cmTC_f0adf.dir/build
@@ -634,7 +634,7 @@ make[1]: Leaving directory '/u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeT
     Feature record: CXX_FEATURE:0cxx_variadic_macros
     Feature record: CXX_FEATURE:0cxx_variadic_templates
 Detecting C OpenMP compiler ABI info compiled with the following output:
-Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp
+Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp
 
 Run Build Command:"/usr/bin/make" "cmTC_f2ee7/fast"
 /usr/bin/make -f CMakeFiles/cmTC_f2ee7.dir/build.make CMakeFiles/cmTC_f2ee7.dir/build
@@ -699,7 +699,7 @@ make[1]: Leaving directory '/u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeT
 
 Parsed C OpenMP implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp]
   ignore line: []
   ignore line: [Run Build Command:"/usr/bin/make" "cmTC_f2ee7/fast"]
   ignore line: [/usr/bin/make -f CMakeFiles/cmTC_f2ee7.dir/build.make CMakeFiles/cmTC_f2ee7.dir/build]
@@ -827,7 +827,7 @@ Parsed C OpenMP implicit link information from above output:
 
 
 Detecting CXX OpenMP compiler ABI info compiled with the following output:
-Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp
+Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp
 
 Run Build Command:"/usr/bin/make" "cmTC_95a1b/fast"
 /usr/bin/make -f CMakeFiles/cmTC_95a1b.dir/build.make CMakeFiles/cmTC_95a1b.dir/build
@@ -896,7 +896,7 @@ make[1]: Leaving directory '/u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeT
 
 Parsed CXX OpenMP implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /u/annyue/Graphics/minecraft/build/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles/CMakeTmp]
   ignore line: []
   ignore line: [Run Build Command:"/usr/bin/make" "cmTC_95a1b/fast"]
   ignore line: [/usr/bin/make -f CMakeFiles/cmTC_95a1b.dir/build.make CMakeFiles/cmTC_95a1b.dir/build]

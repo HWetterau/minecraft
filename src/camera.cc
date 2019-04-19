@@ -143,14 +143,14 @@ void Camera::left_drag(double delta_x, double delta_y) {
 
 void Camera::jump() {
 	if (!jumping) {
-		velocity = 0.75f;
+		velocity = 0.6f;
 		jumping = true;
 
 	}
 }
 
 void Camera::update_height(int height) {
-	if(eye_.y - 2.75 >= height && gravity_on){
+	if((eye_.y - 2.75 >= height && gravity_on)||jumping){
 		eye_.y += velocity;
 		if(eye_.y <= height + 2.75) {
 			eye_.y = height + 2.75;
