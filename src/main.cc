@@ -30,7 +30,7 @@ int window_width = 800, window_height = 600;
 enum { kVertexBuffer, kIndexBuffer, kNumVbos };
 
 // These are our VAOs.
-enum { kGeometryVao, kNumVaos };
+enum { kGeometryVao,  kSkyVao, kNumVaos};
 
 GLuint g_array_objects[kNumVaos];  // This will store the VAO descriptors.
 GLuint g_buffer_objects[kNumVaos][kNumVbos];  // These will store VBO descriptors.
@@ -53,13 +53,15 @@ const char* default_frag_shader =
 #include "shaders/default.frag"
 ;
 
-const char* dirt_frag_shader =
-#include "shaders/dirt.frag"
+const char* sky_vertex_shader =
+#include "shaders/sky.vert"
 ;
 
-const char* grass_frag_shader =
-#include "shaders/grass.frag"
+const char* sky_frag_shader =
+#include "shaders/sky.frag"
 ;
+
+
 
 
 
@@ -293,6 +295,10 @@ int main(int argc, char* argv[])
 
 	CreateCube(obj_vertices, obj_faces);
 
+	// std::vector<glm::vec4> sky_vertices;
+	// std::vector<glm::uvec3> sky_faces;  
+
+	// CreateCube(sky_vertices, sky_faces)
 
 	terrain.generate(g_camera.get_eye());
 	int height = terrain.getMaxHeight(glm::vec3(g_camera.get_eye()));
@@ -408,6 +414,100 @@ int p[512] = { 151,160,137,91,90,15,
     138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
 };
 
+float skyboxVertices[] = {
+    // positions
+		-1.0f,  1.0f, -1.0f,
+    -1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f, -1.0f,
+
+    -1.0f, -1.0f,  1.0f,
+    -1.0f, -1.0f, -1.0f,
+    -1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f,  1.0f,
+    -1.0f, -1.0f,  1.0f,
+
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+
+    -1.0f, -1.0f,  1.0f,
+    -1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f, -1.0f,  1.0f,
+    -1.0f, -1.0f,  1.0f,
+
+    -1.0f,  1.0f, -1.0f,
+     1.0f,  1.0f, -1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+    -1.0f,  1.0f,  1.0f,
+    -1.0f,  1.0f, -1.0f,
+
+    -1.0f, -1.0f, -1.0f,
+    -1.0f, -1.0f,  1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+    -1.0f, -1.0f,  1.0f,
+     1.0f, -1.0f,  1.0f
+};
+
+
+//sky setup
+CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kSkyVao]));
+
+CHECK_GL_ERROR(glGenBuffers(kNumVbos, &g_buffer_objects[kSkyVao][0]));
+
+// Setup vertex data in a VBO.
+CHECK_GL_ERROR(glBindBuffer(GL_ARRAY_BUFFER, g_buffer_objects[kSkyVao][kVertexBuffer]));
+// NOTE: We do not send anything right now, we just describe it to OpenGL.
+CHECK_GL_ERROR(glBufferData(GL_ARRAY_BUFFER,
+			sizeof(float) * sizeof(skyboxVertices), &skyboxVertices,
+			GL_STATIC_DRAW));
+CHECK_GL_ERROR(glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0));
+CHECK_GL_ERROR(glEnableVertexAttribArray(0));
+
+GLuint sky_vertex_shader_id = 0;
+
+CHECK_GL_ERROR(sky_vertex_shader_id = glCreateShader(GL_VERTEX_SHADER));
+CHECK_GL_ERROR(glShaderSource(sky_vertex_shader_id, 1, &sky_vertex_shader, nullptr));
+glCompileShader(sky_vertex_shader_id);
+CHECK_GL_SHADER_ERROR(sky_vertex_shader_id);
+
+GLuint sky_fragment_shader_id = 0;
+
+CHECK_GL_ERROR(sky_fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER));
+CHECK_GL_ERROR(glShaderSource(sky_fragment_shader_id, 1, &sky_frag_shader, nullptr));
+glCompileShader(sky_fragment_shader_id);
+CHECK_GL_SHADER_ERROR(sky_fragment_shader_id);
+
+GLuint sky_program_id = 0;
+GLuint sky_permutation_location = 0;
+GLint sky_projection_matrix_location = 0;
+GLint sky_view_matrix_location = 0;
+CHECK_GL_ERROR(sky_program_id = glCreateProgram());
+CHECK_GL_ERROR(glAttachShader(sky_program_id, sky_vertex_shader_id));
+CHECK_GL_ERROR(glAttachShader(sky_program_id, sky_fragment_shader_id));
+
+CHECK_GL_ERROR(glBindAttribLocation(sky_program_id, 0, "vertex_position"));
+CHECK_GL_ERROR(glBindFragDataLocation(sky_program_id, 0, "fragment_color"));
+
+glLinkProgram(sky_program_id);
+CHECK_GL_PROGRAM_ERROR(sky_program_id);
+
+CHECK_GL_ERROR(sky_permutation_location =
+		glGetUniformLocation(sky_program_id, "p"));
+CHECK_GL_ERROR(sky_view_matrix_location =
+		glGetUniformLocation(sky_program_id, "view"));
+CHECK_GL_ERROR(sky_projection_matrix_location =
+		glGetUniformLocation(sky_program_id, "projection"));
 
 
 int num_trans = 900;
@@ -451,7 +551,7 @@ for (int i = 0; i < num_trans; ++i){
 		glDepthFunc(GL_LESS);
 
 		//glfwSetInputMode	(window,GLFW_STICKY_KEYS,GL_TRUE);
-
+		
 	//poll motion keys
 
 	if (glfwGetKey(window, GLFW_KEY_W) != GLFW_RELEASE) {
@@ -487,8 +587,6 @@ for (int i = 0; i < num_trans; ++i){
 				change_chunk = border(oldPos,g_camera.get_eye());
 		}
 	}
-	
-
 		// Switch to the Geometry VAO.
 		CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kGeometryVao]));
 
@@ -532,6 +630,7 @@ for (int i = 0; i < num_trans; ++i){
 		// Compute the view matrix
 		// FIXME: change eye and center through mouse/keyboard events.
 		glm::mat4 view_matrix = g_camera.get_view_matrix();
+		
 
 		// Use our program.
 		CHECK_GL_ERROR(glUseProgram(default_program_id));
@@ -606,7 +705,19 @@ for (int i = 0; i < num_trans; ++i){
 		// Draw our triangles.
 		//CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0));
 
-	
+		glDepthFunc(GL_LEQUAL);
+		CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kSkyVao]));
+		CHECK_GL_ERROR(glUseProgram(sky_program_id));
+
+		glm::mat4 skyview = glm::mat4(glm::mat3(view_matrix));
+
+		CHECK_GL_ERROR(glUniform1iv(sky_permutation_location, 512, &p[0]));
+		CHECK_GL_ERROR(glUniformMatrix4fv(sky_projection_matrix_location, 1, GL_FALSE,
+					&projection_matrix[0][0]));
+		CHECK_GL_ERROR(glUniformMatrix4fv(sky_view_matrix_location, 1, GL_FALSE,
+					&skyview[0][0]));
+		CHECK_GL_ERROR(glDrawArrays(GL_TRIANGLES, 0, 36));
+		glDepthFunc(GL_LESS);
 
 		// Poll and swap.
 		glfwPollEvents();

@@ -10,8 +10,8 @@ src/CMakeFiles/minecraft.dir/main.cc.o: ../src/main.cc
 src/CMakeFiles/minecraft.dir/main.cc.o: ../src/shaders/default.frag
 src/CMakeFiles/minecraft.dir/main.cc.o: ../src/shaders/default.geom
 src/CMakeFiles/minecraft.dir/main.cc.o: ../src/shaders/default.vert
-src/CMakeFiles/minecraft.dir/main.cc.o: ../src/shaders/dirt.frag
-src/CMakeFiles/minecraft.dir/main.cc.o: ../src/shaders/grass.frag
+src/CMakeFiles/minecraft.dir/main.cc.o: ../src/shaders/sky.frag
+src/CMakeFiles/minecraft.dir/main.cc.o: ../src/shaders/sky.vert
 src/CMakeFiles/minecraft.dir/main.cc.o: ../src/terrain.h
 src/CMakeFiles/minecraft.dir/main.cc.o: /usr/local/include/GLFW/glfw3.h
 

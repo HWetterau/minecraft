@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /u/hwett/Desktop/graphics/minecraft
+CMAKE_SOURCE_DIR = /u/annyue/Graphics/minecraft
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /u/hwett/Desktop/graphics/minecraft/build
+CMAKE_BINARY_DIR = /u/annyue/Graphics/minecraft/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,14 +80,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(CMAKE_COMMAND) -E cmake_progress_start /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles /u/hwett/Desktop/graphics/minecraft/build/src/CMakeFiles/progress.marks
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(MAKE) -f CMakeFiles/Makefile2 src/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /u/hwett/Desktop/graphics/minecraft/build/CMakeFiles 0
+	cd /u/annyue/Graphics/minecraft/build && $(CMAKE_COMMAND) -E cmake_progress_start /u/annyue/Graphics/minecraft/build/CMakeFiles /u/annyue/Graphics/minecraft/build/src/CMakeFiles/progress.marks
+	cd /u/annyue/Graphics/minecraft/build && $(MAKE) -f CMakeFiles/Makefile2 src/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /u/annyue/Graphics/minecraft/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(MAKE) -f CMakeFiles/Makefile2 src/clean
+	cd /u/annyue/Graphics/minecraft/build && $(MAKE) -f CMakeFiles/Makefile2 src/clean
 .PHONY : clean
 
 # The main clean target
@@ -97,22 +97,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
+	cd /u/annyue/Graphics/minecraft/build && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
+	cd /u/annyue/Graphics/minecraft/build && $(MAKE) -f CMakeFiles/Makefile2 src/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /u/annyue/Graphics/minecraft/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/CMakeFiles/minecraft.dir/rule:
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/minecraft.dir/rule
+	cd /u/annyue/Graphics/minecraft/build && $(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/minecraft.dir/rule
 .PHONY : src/CMakeFiles/minecraft.dir/rule
 
 # Convenience name for target.
@@ -122,7 +122,7 @@ minecraft: src/CMakeFiles/minecraft.dir/rule
 
 # fast build rule for target.
 minecraft/fast:
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/build
+	cd /u/annyue/Graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/build
 .PHONY : minecraft/fast
 
 camera.o: camera.cc.o
@@ -131,7 +131,7 @@ camera.o: camera.cc.o
 
 # target to build an object file
 camera.cc.o:
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/camera.cc.o
+	cd /u/annyue/Graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/camera.cc.o
 .PHONY : camera.cc.o
 
 camera.i: camera.cc.i
@@ -140,7 +140,7 @@ camera.i: camera.cc.i
 
 # target to preprocess a source file
 camera.cc.i:
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/camera.cc.i
+	cd /u/annyue/Graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/camera.cc.i
 .PHONY : camera.cc.i
 
 camera.s: camera.cc.s
@@ -149,7 +149,7 @@ camera.s: camera.cc.s
 
 # target to generate assembly for a file
 camera.cc.s:
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/camera.cc.s
+	cd /u/annyue/Graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/camera.cc.s
 .PHONY : camera.cc.s
 
 main.o: main.cc.o
@@ -158,7 +158,7 @@ main.o: main.cc.o
 
 # target to build an object file
 main.cc.o:
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/main.cc.o
+	cd /u/annyue/Graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/main.cc.o
 .PHONY : main.cc.o
 
 main.i: main.cc.i
@@ -167,7 +167,7 @@ main.i: main.cc.i
 
 # target to preprocess a source file
 main.cc.i:
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/main.cc.i
+	cd /u/annyue/Graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/main.cc.i
 .PHONY : main.cc.i
 
 main.s: main.cc.s
@@ -176,7 +176,7 @@ main.s: main.cc.s
 
 # target to generate assembly for a file
 main.cc.s:
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/main.cc.s
+	cd /u/annyue/Graphics/minecraft/build && $(MAKE) -f src/CMakeFiles/minecraft.dir/build.make src/CMakeFiles/minecraft.dir/main.cc.s
 .PHONY : main.cc.s
 
 # Help Target
@@ -205,6 +205,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /u/hwett/Desktop/graphics/minecraft/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /u/annyue/Graphics/minecraft/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
