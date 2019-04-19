@@ -640,39 +640,76 @@ for (int i = 0; i < num_trans; ++i){
 
 	//poll motion keys
 
+	glm::vec4 oldPos = g_camera.get_eye();
+
 	if (glfwGetKey(window, GLFW_KEY_W) != GLFW_RELEASE) {
-		glm::vec4 oldPos = g_camera.get_eye();
+		// glm::vec4 oldPos = g_camera.get_eye();
 		if(!terrain.collision(glm::vec3(oldPos),g_camera.w_can_move())) {
 			g_camera.w_move_forward();
-			if(!change_chunk)
-				change_chunk = border(oldPos,g_camera.get_eye());
+			// if(!change_chunk)
+			// 	change_chunk = border(oldPos,g_camera.get_eye());
 		}
 	} else if (glfwGetKey(window, GLFW_KEY_S) != GLFW_RELEASE) {
-		glm::vec4 oldPos = g_camera.get_eye();
+		//glm::vec4 oldPos = g_camera.get_eye();
 		if(!terrain.collision(glm::vec3(oldPos),g_camera.s_can_move())) {
 			g_camera.s_move_backward();
-			if(!change_chunk)
-				change_chunk = border(oldPos,g_camera.get_eye());
+			// if(!change_chunk)
+			// 	change_chunk = border(oldPos,g_camera.get_eye());
 		}
 	}
 
 
 	if (glfwGetKey(window, GLFW_KEY_A) != GLFW_RELEASE)
 	{
-		glm::vec4 oldPos = g_camera.get_eye();
+		
 		if(!terrain.collision(glm::vec3(oldPos),g_camera.a_can_move())) {
 			g_camera.a_strafe_left();
-			if(!change_chunk)
-				change_chunk = border(oldPos,g_camera.get_eye());
+			// if(!change_chunk)
+			// 	change_chunk = border(oldPos,g_camera.get_eye());
 		}
 	} else if (glfwGetKey(window, GLFW_KEY_D) != GLFW_RELEASE) {
-		glm::vec4 oldPos = g_camera.get_eye();
+		//glm::vec4 oldPos = g_camera.get_eye();
 		if(!terrain.collision(glm::vec3(oldPos),g_camera.d_can_move())) {
 			g_camera.d_strafe_right();
-			if(!change_chunk)
-				change_chunk = border(oldPos,g_camera.get_eye());
+			// if(!change_chunk)
+			// 	change_chunk = border(oldPos,g_camera.get_eye());
 		}
 	}
+	change_chunk = border(oldPos,g_camera.get_eye());
+	g_camera.update_height(terrain.getMaxHeight(glm::vec3(g_camera.get_eye())));
+
+			// Compute the projection matrix.
+		aspect = static_cast<float>(window_width) / window_height;
+		glm::mat4 projection_matrix =
+			glm::perspective(glm::radians(45.0f), aspect, 0.2f, 100.0f);
+
+
+		// Compute the view matrix
+		// FIXME: change eye and center through mouse/keyboard events.
+		glm::mat4 view_matrix = g_camera.get_view_matrix();
+			//FLOOR
+		glm::vec4 eyetemp = g_camera.get_eye();
+
+		float tempx = floor(eyetemp.x/20)*20 ; 
+		float tempz = floor(eyetemp.z/20)*20;
+		glm::vec4 flooroffset = glm::vec4(tempx,0.0f,tempz,0.0f);
+
+		CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kFloorVao]));
+
+		CHECK_GL_ERROR(glUseProgram(floor_program_id));
+
+		CHECK_GL_ERROR(glUniformMatrix4fv(floor_projection_matrix_location, 1, GL_FALSE,
+					&projection_matrix[0][0]));
+		CHECK_GL_ERROR(glUniformMatrix4fv(floor_view_matrix_location, 1, GL_FALSE,
+					&view_matrix[0][0]));
+		
+		// cout<<"floor offset "<<glm::to_string(flooroffset)<<endl;
+		CHECK_GL_ERROR(glUniform4fv(floor_offset_location, 1, &flooroffset[0]));
+
+		CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, plane_faces.size() * 3, GL_UNSIGNED_INT, 0));
+
+
+
 		// Switch to the Geometry VAO.
 		CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kGeometryVao]));
 
@@ -707,15 +744,7 @@ for (int i = 0; i < num_trans; ++i){
 			change_chunk = false;
 		}
 
-		// Compute the projection matrix.
-		aspect = static_cast<float>(window_width) / window_height;
-		glm::mat4 projection_matrix =
-			glm::perspective(glm::radians(45.0f), aspect, 0.2f, 100.0f);
-
-
-		// Compute the view matrix
-		// FIXME: change eye and center through mouse/keyboard events.
-		glm::mat4 view_matrix = g_camera.get_view_matrix();
+	
 
 
 		// Use our program.
@@ -783,32 +812,12 @@ for (int i = 0; i < num_trans; ++i){
 				}
 		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.down_right_offsets.size()));
 
-		//FLOOR
-		glm::vec4 eyetemp = g_camera.get_eye();
-
-		float tempx = floor(eyetemp.x/20)*20 ; 
-		float tempz = floor(eyetemp.z/20)*20;
-		glm::vec4 flooroffset = glm::vec4(tempx,0.0f,tempz,0.0f);
-
-		CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kFloorVao]));
-
-		CHECK_GL_ERROR(glUseProgram(floor_program_id));
-
-		CHECK_GL_ERROR(glUniformMatrix4fv(floor_projection_matrix_location, 1, GL_FALSE,
-					&projection_matrix[0][0]));
-		CHECK_GL_ERROR(glUniformMatrix4fv(floor_view_matrix_location, 1, GL_FALSE,
-					&view_matrix[0][0]));
-		
-		// cout<<"floor offset "<<glm::to_string(flooroffset)<<endl;
-		CHECK_GL_ERROR(glUniform4fv(floor_offset_location, 1, &flooroffset[0]));
-
-		CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, plane_faces.size() * 3, GL_UNSIGNED_INT, 0));
-
+	
 
 		// if (g_camera.is_jumping()) {
 		// 	g_camera.update_height(get_heights(g_camera.get_eye(),terrain));
 		// }
-		g_camera.update_height(terrain.getMaxHeight(glm::vec3(g_camera.get_eye())));
+		//g_camera.update_height(terrain.getMaxHeight(glm::vec3(g_camera.get_eye())));
 		// Draw our triangles.
 		//CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0));
 
