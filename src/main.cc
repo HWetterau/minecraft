@@ -30,11 +30,7 @@ int window_width = 800, window_height = 600;
 enum { kVertexBuffer, kIndexBuffer, kNumVbos };
 
 // These are our VAOs.
-<<<<<<< HEAD
-enum { kGeometryVao,kFloorVao, kNumVaos };
-=======
-enum { kGeometryVao,  kSkyVao, kNumVaos};
->>>>>>> 55ab689f7bf0cd8c986436c62e296da0a5ed0721
+enum { kGeometryVao, kFloorVao, kSkyVao, kMoonVao, kNumVaos};
 
 GLuint g_array_objects[kNumVaos];  // This will store the VAO descriptors.
 GLuint g_buffer_objects[kNumVaos][kNumVbos];  // These will store VBO descriptors.
@@ -56,21 +52,27 @@ const char* default_frag_shader =
 #include "shaders/default.frag"
 ;
 
-<<<<<<< HEAD
 const char* floor_vert_shader =
 #include "shaders/floor.vert"
 ;
 
 const char* floor_frag_shader =
 #include "shaders/floor.frag"
-=======
+;
 const char* sky_vertex_shader =
 #include "shaders/sky.vert"
 ;
 
 const char* sky_frag_shader =
 #include "shaders/sky.frag"
->>>>>>> 55ab689f7bf0cd8c986436c62e296da0a5ed0721
+;
+
+const char* moon_vertex_shader =
+#include "shaders/moon.vert"
+;
+
+const char* moon_frag_shader =
+#include "shaders/moon.frag"
 ;
 
 
@@ -84,6 +86,41 @@ void CreateCube (std::vector<glm::vec4>& obj_vertices, std::vector<glm::uvec3>& 
 	double minY = minX;
 	double minZ = minX;
 	double maxX = 1;
+	double maxY = maxX;
+	double maxZ = maxX;
+
+		//build the cube
+	obj_vertices.push_back(glm::vec4(minX,minY, maxZ,1.0f));
+	obj_vertices.push_back(glm::vec4(maxX,minY,maxZ,1.0f));
+	obj_vertices.push_back(glm::vec4(minX,maxY,maxZ,1.0f));
+	obj_vertices.push_back(glm::vec4(maxX,maxY,maxZ,1.0f));
+
+	obj_vertices.push_back(glm::vec4(minX,minY,minZ,1.0f));
+	obj_vertices.push_back(glm::vec4(maxX,minY,minZ,1.0f));
+	obj_vertices.push_back(glm::vec4(minX,maxY, minZ,1.0f));
+	obj_vertices.push_back(glm::vec4(maxX,maxY,minZ,1.0f));
+	
+	obj_faces.push_back(glm::uvec3(0,1,2));
+	obj_faces.push_back(glm::uvec3(1,3,2));
+	obj_faces.push_back(glm::uvec3(2,3,7));
+	obj_faces.push_back(glm::uvec3(2,7,6));
+	obj_faces.push_back(glm::uvec3(1,7,3));
+	obj_faces.push_back(glm::uvec3(1,5,7));
+	obj_faces.push_back(glm::uvec3(6,7,4));
+	obj_faces.push_back(glm::uvec3(7,5,4));
+	obj_faces.push_back(glm::uvec3(2,6,4));
+	obj_faces.push_back(glm::uvec3(0,2,4));
+	obj_faces.push_back(glm::uvec3(0,4,1));
+	obj_faces.push_back(glm::uvec3(1,4,5));
+
+}
+
+void CreateMoon (std::vector<glm::vec4>& obj_vertices, std::vector<glm::uvec3>& obj_faces) {
+	
+	double minX = 7;
+	double minY = minX;
+	double minZ = minX;
+	double maxX = 7.5;
 	double maxY = maxX;
 	double maxZ = maxX;
 
@@ -146,6 +183,12 @@ bool w_down = false;
 bool a_down = false;
 bool s_down = false;
 bool d_down = false;
+bool day_night = false;
+
+float sky_time = 0.01;
+bool sunrise = true;
+bool sunset = false;
+int times = 0;
 
 
 bool border(glm::vec4 oldPos, glm::vec4 newPos) {
@@ -233,6 +276,12 @@ KeyCallback(GLFWwindow* window,
 		// 	if(!change_chunk)
 		// 		change_chunk = border(oldPos,g_camera.get_eye());
 		// }
+	} else if (key == GLFW_KEY_N && action == GLFW_RELEASE) {
+		day_night = true;
+		sky_time = 0.01;
+		sunrise = true;
+		sunset = false;
+		times = 0;
 	}
 
 }
@@ -318,27 +367,77 @@ int main(int argc, char* argv[])
 
 	CreateCube(obj_vertices, obj_faces);
 
-<<<<<<< HEAD
 	std::vector<glm::vec4> plane_vertices;
 	std::vector<glm::uvec3> plane_faces;
 
 	CreatePlane(plane_vertices, plane_faces);
 
+	std::vector<glm::vec4> moon_vertices;
+	std::vector<glm::uvec3> moon_faces;  
+
+	CreateMoon(moon_vertices, moon_faces);
+
+	CHECK_GL_ERROR(glGenVertexArrays(kNumVaos, &g_array_objects[0]));
+
+	// Switch to the VAO for Geometry.
+	CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kMoonVao]));
+
+	// Generate buffer objects
+	CHECK_GL_ERROR(glGenBuffers(kNumVbos, &g_buffer_objects[kMoonVao][0]));
+
+	// Setup vertex data in a VBO.
+	CHECK_GL_ERROR(glBindBuffer(GL_ARRAY_BUFFER, g_buffer_objects[kMoonVao][kVertexBuffer]));
+	// NOTE: We do not send anything right now, we just describe it to OpenGL.
+	CHECK_GL_ERROR(glBufferData(GL_ARRAY_BUFFER,
+				sizeof(float) * moon_vertices.size() * 4, moon_vertices.data(),
+				GL_STATIC_DRAW));
+	CHECK_GL_ERROR(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0));
+	CHECK_GL_ERROR(glEnableVertexAttribArray(0));
+
+	// Setup element array buffer.
+	CHECK_GL_ERROR(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_buffer_objects[kMoonVao][kIndexBuffer]));
+	CHECK_GL_ERROR(glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+				sizeof(uint32_t) * moon_faces.size() * 3,
+				moon_faces.data(), GL_STATIC_DRAW));
 
 
-=======
-	// std::vector<glm::vec4> sky_vertices;
-	// std::vector<glm::uvec3> sky_faces;  
+	GLuint moon_vertex_shader_id = 0;
+	CHECK_GL_ERROR(moon_vertex_shader_id = glCreateShader(GL_VERTEX_SHADER));
+	CHECK_GL_ERROR(glShaderSource(moon_vertex_shader_id, 1, &moon_vertex_shader, nullptr));
+	glCompileShader(moon_vertex_shader_id);
+	CHECK_GL_SHADER_ERROR(moon_vertex_shader_id);
 
-	// CreateCube(sky_vertices, sky_faces)
->>>>>>> 55ab689f7bf0cd8c986436c62e296da0a5ed0721
+	GLuint moon_fragment_shader_id = 0;
+	CHECK_GL_ERROR(moon_fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER));
+	CHECK_GL_ERROR(glShaderSource(moon_fragment_shader_id, 1, &moon_frag_shader, nullptr));
+	glCompileShader(moon_fragment_shader_id);
+	CHECK_GL_SHADER_ERROR(moon_fragment_shader_id);
+
+	GLuint moon_program_id = 0;
+	CHECK_GL_ERROR(moon_program_id = glCreateProgram());
+	CHECK_GL_ERROR(glAttachShader(moon_program_id, moon_vertex_shader_id));
+    CHECK_GL_ERROR(glAttachShader(moon_program_id, moon_fragment_shader_id));
+
+	// Bind attributes.
+	CHECK_GL_ERROR(glBindAttribLocation(moon_program_id, 0, "vertex_position"));
+	CHECK_GL_ERROR(glBindFragDataLocation(moon_program_id, 0, "fragment_color"));
+
+	glLinkProgram(moon_program_id);
+	CHECK_GL_PROGRAM_ERROR(moon_program_id);
+
+	GLint moon_projection_matrix_location = 0;
+	CHECK_GL_ERROR(moon_projection_matrix_location =
+			glGetUniformLocation(moon_program_id, "projection"));
+	GLint moon_view_matrix_location = 0;
+	CHECK_GL_ERROR(moon_view_matrix_location =
+			glGetUniformLocation(moon_program_id, "view"));
+	GLint moon_time_location = 0;
+	CHECK_GL_ERROR(moon_time_location =
+			glGetUniformLocation(moon_program_id, "time"));
 
 	terrain.generate(g_camera.get_eye());
 	int height = terrain.getMaxHeight(glm::vec3(g_camera.get_eye()));
 	g_camera.change_eye(height);
-
-	// Setup our VAO array.
-	CHECK_GL_ERROR(glGenVertexArrays(kNumVaos, &g_array_objects[0]));
 
 	// Switch to the VAO for Geometry.
 	CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kGeometryVao]));
@@ -586,6 +685,7 @@ GLuint sky_program_id = 0;
 GLuint sky_permutation_location = 0;
 GLint sky_projection_matrix_location = 0;
 GLint sky_view_matrix_location = 0;
+GLint sky_time_location = 0;
 CHECK_GL_ERROR(sky_program_id = glCreateProgram());
 CHECK_GL_ERROR(glAttachShader(sky_program_id, sky_vertex_shader_id));
 CHECK_GL_ERROR(glAttachShader(sky_program_id, sky_fragment_shader_id));
@@ -602,6 +702,8 @@ CHECK_GL_ERROR(sky_view_matrix_location =
 		glGetUniformLocation(sky_program_id, "view"));
 CHECK_GL_ERROR(sky_projection_matrix_location =
 		glGetUniformLocation(sky_program_id, "projection"));
+CHECK_GL_ERROR(sky_time_location =
+		glGetUniformLocation(sky_program_id, "t"));
 
 
 int num_trans = 900;
@@ -635,6 +737,7 @@ for (int i = 0; i < num_trans; ++i){
 	glm::vec4 light_position = glm::vec4(-10.0f, 20.0f, 10.0f, 1.0f);
 	float aspect = 0.0f;
 	float theta = 0.0f;
+
 	while (!glfwWindowShouldClose(window)) {
 		// Setup some basic window stuff.
 		glfwGetFramebufferSize(window, &window_width, &window_height);
@@ -822,8 +925,48 @@ for (int i = 0; i < num_trans; ++i){
 					&projection_matrix[0][0]));
 		CHECK_GL_ERROR(glUniformMatrix4fv(sky_view_matrix_location, 1, GL_FALSE,
 					&skyview[0][0]));
+		CHECK_GL_ERROR(glUniform1f(sky_time_location, sky_time));
 		CHECK_GL_ERROR(glDrawArrays(GL_TRIANGLES, 0, 36));
 		glDepthFunc(GL_LESS);
+
+		if (day_night) {
+			if (sunrise) {
+				sky_time += 0.005;
+				if (sky_time > 1.5) {
+					sunrise = false;
+					sunset = true;
+					times++;
+				}
+
+			} else if (sunset) {
+				sky_time -= 0.005;
+				if (sky_time < -1.1) {
+					sunset = false;
+					sunrise = true;
+					times++;
+				}
+				CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kMoonVao]));
+
+				CHECK_GL_ERROR(glUseProgram(moon_program_id));
+
+				CHECK_GL_ERROR(glUniformMatrix4fv(moon_projection_matrix_location, 1, GL_FALSE,
+						&projection_matrix[0][0]));
+				CHECK_GL_ERROR(glUniformMatrix4fv(moon_view_matrix_location, 1, GL_FALSE,
+						&skyview[0][0]));
+				CHECK_GL_ERROR(glUniform1f(moon_time_location, sky_time));
+				CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, moon_faces.size() * 3, GL_UNSIGNED_INT, 0));
+
+						
+
+			}
+
+			if (times == 3) {
+				day_night = false;
+			}
+		}
+ 		
+
+
 
 		// Poll and swap.
 		glfwPollEvents();

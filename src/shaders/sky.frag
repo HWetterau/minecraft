@@ -1,6 +1,7 @@
 R"zzz(
 #version 410 core
 uniform int p[512];
+uniform float t;
 in vec4 world_pos;
 out vec4 fragment_color;
 
@@ -88,7 +89,12 @@ void main() {
 		
 		result = (result + 1) / 2;
 		vec4 mult = vec4(result, result, result,1);
-		color = mult * vec4(0.7, 0.7, 0.9, 1.0);
+		if (t > 0) {
+			color = mult * vec4(0.7, 0.7 , 0.9 + t, 1.0);
+		}
+		if (t < 0) {
+			color = mult * vec4(0.7 + t, 0.7 + t, 0.9 + t, 1.0);
+		}
 		//color += vec4(0.2, 0.2, 0.2, 1.0);
 
 	fragment_color = clamp(color, 0.0, 1.0) ;
