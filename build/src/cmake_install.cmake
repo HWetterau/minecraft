@@ -1,4 +1,4 @@
-# Install script for directory: /u/annyue/Graphics/minecraft/src
+# Install script for directory: /u/hwett/Desktop/graphics/minecraft/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
