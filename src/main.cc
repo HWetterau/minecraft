@@ -30,7 +30,7 @@ int window_width = 800, window_height = 600;
 enum { kVertexBuffer, kIndexBuffer, kNumVbos };
 
 // These are our VAOs.
-enum { kGeometryVao, kNumVaos };
+enum { kGeometryVao,kFloorVao, kNumVaos };
 
 GLuint g_array_objects[kNumVaos];  // This will store the VAO descriptors.
 GLuint g_buffer_objects[kNumVaos][kNumVbos];  // These will store VBO descriptors.
@@ -48,17 +48,16 @@ const char* geometry_shader =
 #include "shaders/default.geom"
 ;
 
-
 const char* default_frag_shader =
 #include "shaders/default.frag"
 ;
 
-const char* dirt_frag_shader =
-#include "shaders/dirt.frag"
+const char* floor_vert_shader =
+#include "shaders/floor.vert"
 ;
 
-const char* grass_frag_shader =
-#include "shaders/grass.frag"
+const char* floor_frag_shader =
+#include "shaders/floor.frag"
 ;
 
 
@@ -98,6 +97,20 @@ void CreateCube (std::vector<glm::vec4>& obj_vertices, std::vector<glm::uvec3>& 
 	obj_faces.push_back(glm::uvec3(1,4,5));
 
 }
+
+void
+CreatePlane(std::vector<glm::vec4>& vertices,
+				std::vector<glm::uvec3>& indices)
+{
+	vertices.push_back(glm::vec4(-20.0,0.001,-20.0,1.0));
+	vertices.push_back(glm::vec4(-20.0,0.001,40.0,1.0));
+	vertices.push_back(glm::vec4(40.0,0.001,40.0,1.0));
+	vertices.push_back(glm::vec4(40.0,0.001,-20.0,1.0));
+	indices.push_back(glm::uvec3(0,2,3));
+	indices.push_back(glm::uvec3(0,1,2));
+
+}
+
 
 
 
@@ -284,14 +297,18 @@ int main(int argc, char* argv[])
 
 	
 
-
-
-
 	//cubes
 	std::vector<glm::vec4> obj_vertices;
 	std::vector<glm::uvec3> obj_faces;  
 
 	CreateCube(obj_vertices, obj_faces);
+
+	std::vector<glm::vec4> plane_vertices;
+	std::vector<glm::uvec3> plane_faces;
+
+	CreatePlane(plane_vertices, plane_faces);
+
+
 
 
 	terrain.generate(g_camera.get_eye());
@@ -377,6 +394,67 @@ int main(int argc, char* argv[])
 			glGetUniformLocation(default_program_id, "light_position"));
 	CHECK_GL_ERROR(permutation_location =
 			glGetUniformLocation(default_program_id, "p"));
+
+
+
+
+//FLOOR
+	CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kFloorVao]));
+	CHECK_GL_ERROR(glGenBuffers(kNumVbos, &g_buffer_objects[kFloorVao][0]));
+	CHECK_GL_ERROR(glBindBuffer(GL_ARRAY_BUFFER, g_buffer_objects[kFloorVao][kVertexBuffer]));
+
+	CHECK_GL_ERROR(glBufferData(GL_ARRAY_BUFFER,
+				sizeof(float) * plane_vertices.size() * 4, plane_vertices.data(),
+				GL_STATIC_DRAW));
+	CHECK_GL_ERROR(glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0));
+	CHECK_GL_ERROR(glEnableVertexAttribArray(0));
+
+	// Setup element array buffer.
+	CHECK_GL_ERROR(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_buffer_objects[kFloorVao][kIndexBuffer]));
+	CHECK_GL_ERROR(glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+				sizeof(uint32_t) * plane_faces.size() * 3,
+				plane_faces.data(), GL_STATIC_DRAW));
+
+
+	// Setup vertex shader.
+	GLuint floor_vertex_shader_id = 0;
+	CHECK_GL_ERROR(floor_vertex_shader_id = glCreateShader(GL_VERTEX_SHADER));
+	CHECK_GL_ERROR(glShaderSource(floor_vertex_shader_id, 1, &floor_vert_shader, nullptr));
+	glCompileShader(floor_vertex_shader_id);
+	CHECK_GL_SHADER_ERROR(floor_vertex_shader_id);			
+
+	// Setup fragment shader for the floor
+	GLuint floor_fragment_shader_id = 0;
+	CHECK_GL_ERROR(floor_fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER));
+	CHECK_GL_ERROR(glShaderSource(floor_fragment_shader_id, 1,
+				&floor_frag_shader, nullptr));
+	glCompileShader(floor_fragment_shader_id);
+	CHECK_GL_SHADER_ERROR(floor_fragment_shader_id);
+
+	// FIXME: Setup another program for the floor, and get its locations.
+	// Note: you can reuse the vertex and geometry shader objects
+	GLuint floor_program_id = 0;
+	GLint floor_projection_matrix_location = 0;
+	GLint floor_view_matrix_location = 0;
+
+	CHECK_GL_ERROR(floor_program_id = glCreateProgram());
+	CHECK_GL_ERROR(glAttachShader(floor_program_id, floor_vertex_shader_id));
+	//FIXME: change the fragment shader
+	CHECK_GL_ERROR(glAttachShader(floor_program_id, floor_fragment_shader_id));
+
+
+//bind attributes
+	CHECK_GL_ERROR(glBindAttribLocation(floor_program_id, 0, "vertex_position"));
+	CHECK_GL_ERROR(glBindFragDataLocation(floor_program_id, 0, "fragment_color"));
+	glLinkProgram(floor_program_id);
+	CHECK_GL_PROGRAM_ERROR(floor_program_id);
+
+	//uniform locations
+	CHECK_GL_ERROR(floor_projection_matrix_location =
+			glGetUniformLocation(floor_program_id, "projection"));
+	CHECK_GL_ERROR(floor_view_matrix_location =
+			glGetUniformLocation(floor_program_id, "view"));
+
 
 	// CHECK_GL_ERROR(camera_position_location =
 	// 		glGetUniformLocation(default_program_id, "camera_position"));
@@ -597,6 +675,18 @@ for (int i = 0; i < num_trans; ++i){
 					CHECK_GL_ERROR(glUniform4fv(cube_translation_location[i], 1, &drtranslations[i][0]));
 				}
 		CHECK_GL_ERROR(glDrawElementsInstanced(GL_TRIANGLES, obj_faces.size() * 3, GL_UNSIGNED_INT, 0, terrain.down_right_offsets.size()));
+		
+		//FLOOR
+		CHECK_GL_ERROR(glBindVertexArray(g_array_objects[kFloorVao]));
+
+		CHECK_GL_ERROR(glUseProgram(floor_program_id));
+
+		CHECK_GL_ERROR(glUniformMatrix4fv(floor_projection_matrix_location, 1, GL_FALSE,
+					&projection_matrix[0][0]));
+		CHECK_GL_ERROR(glUniformMatrix4fv(floor_view_matrix_location, 1, GL_FALSE,
+					&view_matrix[0][0]));
+	
+		CHECK_GL_ERROR(glDrawElements(GL_TRIANGLES, plane_faces.size() * 3, GL_UNSIGNED_INT, 0));
 
 
 		// if (g_camera.is_jumping()) {

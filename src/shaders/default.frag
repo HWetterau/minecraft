@@ -80,32 +80,46 @@ float octaves(float x, float y, float z, int octaves, float persistence) {
 }
 
 void main() {
-	float u;
-	float v;
+	
 
-	if(abs(normal) == vec4(0.0,1.0,0.0,1.0)){ //y
-		u = world_pos.x;
-		v = world_pos.z;
-	} else if (abs(normal) == vec4(1.0,0.0,0.0,1.0)){ //x
-		u = world_pos.z;
-		v = world_pos.y;
-	} else {
-		u = world_pos.x;
-		v = world_pos.y;
-	}
+
 	vec4 color;
 	if(world_pos.y < 0.0001){
+
+		float result = octaves(world_pos.x,world_pos.y,world_pos.z,2, 0.5);
+
+		int temp = int(floor(floor(result* world_pos.x)+floor(result *world_pos.y)));
+		result = temp%2;  // WATER
+
+		vec4 mult = vec4(result, result, result,1);
+		color =  vec4(0.0, 0.3, 0.4, 1.0);
+		color += (mult * vec4(0.2, 0.2, 0.2, 0.0));
+		//color *= mult;
+		
+		
+	}else if (world_pos.y < 1.0001){
+		//sand
+		float result = octaves(world_pos.x,world_pos.y,world_pos.z,2, 0.5);
+
+		//int temp = int(floor(floor(result* u)+floor(result *v)));
+		//result = temp%2; WATER
+
+		vec4 mult = vec4(result, result, result,1);
+		color =  vec4(0.5, 0.4, 0.3, 1.0);
+		color += (mult * vec4(0.6, 0.4, 0.0, 1.0)) - vec4(0.2,0.15,0.0,0.0);
+
+	}else if(world_pos.y < 2.0001){
 		//STONE
 		float result = octaves(world_pos.x,world_pos.y,world_pos.z,3, 0.75);
 	
-		result = (sin(u*10 - v*10 + 20 * result));
-		//result = (sin(world_pos.x*10 - world_pos.z*10 + 20 * result));
+		
+		result = (sin(world_pos.x*10 - world_pos.z*10 + 20 * result));
 		
 		result = (result + 1) / 2;
 		vec4 mult = vec4(result, result, result,1);
 		color = mult * vec4(0.2, 0.2, 0.2, 1.0);
 		color += vec4(0.2, 0.2, 0.2, 1.0);
-	} else if(world_pos.y < 2.0001){
+	} else if(world_pos.y < 4.0001){
 		//DIRT
 		float result = octaves(world_pos.x,world_pos.y,world_pos.z,2, 0.5);
 
@@ -126,6 +140,6 @@ void main() {
 		//color += (mult *  vec4(0.5, 0.5, 0.5, 1.0) - vec4(0.3,0.3,0.3,0.0));
 	}
 		float dot_nl = dot(normalize(light_direction), normalize(normal));
-		dot_nl = clamp(dot_nl, 0.1, 1.0);
+		dot_nl = clamp(dot_nl, 0.5, 1.0);
 	fragment_color = dot_nl * clamp(color, 0.0, 1.0) ;
 })zzz"

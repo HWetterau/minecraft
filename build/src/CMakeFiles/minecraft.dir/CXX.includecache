@@ -63,10 +63,10 @@ shaders/default.geom
 /u/hwett/Desktop/graphics/minecraft/src/shaders/default.geom
 shaders/default.frag
 /u/hwett/Desktop/graphics/minecraft/src/shaders/default.frag
-shaders/dirt.frag
-/u/hwett/Desktop/graphics/minecraft/src/shaders/dirt.frag
-shaders/grass.frag
-/u/hwett/Desktop/graphics/minecraft/src/shaders/grass.frag
+shaders/floor.vert
+/u/hwett/Desktop/graphics/minecraft/src/shaders/floor.vert
+shaders/floor.frag
+/u/hwett/Desktop/graphics/minecraft/src/shaders/floor.frag
 
 /u/hwett/Desktop/graphics/minecraft/src/shaders/default.frag
 
@@ -74,9 +74,9 @@ shaders/grass.frag
 
 /u/hwett/Desktop/graphics/minecraft/src/shaders/default.vert
 
-/u/hwett/Desktop/graphics/minecraft/src/shaders/dirt.frag
+/u/hwett/Desktop/graphics/minecraft/src/shaders/floor.frag
 
-/u/hwett/Desktop/graphics/minecraft/src/shaders/grass.frag
+/u/hwett/Desktop/graphics/minecraft/src/shaders/floor.vert
 
 /u/hwett/Desktop/graphics/minecraft/src/terrain.h
 glm/glm.hpp
